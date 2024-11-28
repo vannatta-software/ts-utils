@@ -2,8 +2,14 @@ import { ApiClient } from "@vannatta-software/ts-core";
 import React, { FunctionComponent, PropsWithChildren } from "react";
 import { WebSocketConnection, WebSocketService, WebSockets } from "./WebSocketUtils";
 
+interface Context {
+    service: WebSocketService,
+    connected: boolean,
+    status: { [key: string]: boolean; }
+}
+
 const socketService = new WebSocketService();
-const WebSocketContext = React.createContext({ 
+const WebSocketContext = React.createContext<Context>({ 
     service: socketService, 
     connected: false, 
     status: { ...socketService.status } 
