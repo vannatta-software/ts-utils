@@ -34,12 +34,12 @@ jobs:
       #     cd packages/core
       #     npm publish --access public
 
-      - name: Publish domain package
-        run: |
-          cd packages/domain
-          npm publish --access public
-
-      # - name: Publish frontend package
+      # - name: Publish domain package
       #   run: |
-      #     cd packages/frontend
+      #     cd packages/domain
       #     npm publish --access public
+
+      - name: Publish frontend package
+        run: |
+          cd packages/frontend
+          npm publish --access public
