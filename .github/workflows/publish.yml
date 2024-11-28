@@ -29,30 +29,7 @@ jobs:
         run: |
           npm install
 
-      - name: Check if version exists in GitHub Packages
-        id: check-package-version
-        run: |
-          check_version() {
-            PACKAGE=$1
-            VERSION=$(node -p "require('./packages/$PACKAGE/package.json').version")
-            echo "Checking if version $VERSION of $PACKAGE exists in GitHub Packages"
-            npm view @vannatta-software/$PACKAGE@$VERSION > /dev/null 2>&1
-            if [ $? -eq 0 ]; then
-              echo "Version $VERSION already exists for $PACKAGE. Skipping publish."
-              echo "$PACKAGE_exists=true" >> $GITHUB_ENV
-            else
-              echo "Version $VERSION does not exist for $PACKAGE. Proceeding with publish."
-              echo "$PACKAGE_exists=false" >> $GITHUB_ENV
-            fi
-          }
-          
-          # Check versions for all packages
-          check_version "ts-core"
-          check_version "ts-domain"
-          check_version "ts-frontend"
-
       - name: Publish core package
-        if: env.ts-core_exists == 'false'
         run: |
           cd packages/core
           npm run test
@@ -60,7 +37,6 @@ jobs:
           npm publish --access public
 
       - name: Publish domain package
-        if: env.ts-domain_exists == 'false'
         run: |
           cd packages/domain
           npm run test
@@ -68,7 +44,6 @@ jobs:
           npm publish --access public
 
       - name: Publish frontend package
-        if: env.ts-frontend_exists == 'false'
         run: |
           cd packages/frontend
           npm run build
