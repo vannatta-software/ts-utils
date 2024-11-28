@@ -30,7 +30,7 @@ const WebSocketProvider: FunctionComponent<Props> = props => {
         if (props.bypass)
             Object.keys(service.status).forEach(key => status[key] = true);
 
-        Object.values(service.status).forEach(status => connected = connected && status)        
+        Object.values(service.status).forEach((status: boolean) => connected = connected && status)        
 
         setSocketContext({ connected, service, status});
     }

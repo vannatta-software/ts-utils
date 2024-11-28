@@ -1,6 +1,6 @@
 {
     "name": "@vannatta-software/ts-frontend",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
@@ -8,6 +8,7 @@
         "test": "jest"
     },
     "dependencies": {
+        "@microsoft/signalr": "^8.0.0",
         "@vannatta-software/ts-core": "^1.0.0",
         "@vannatta-software/ts-domain": "^1.0.0",
         "antd": "^5.13.1",

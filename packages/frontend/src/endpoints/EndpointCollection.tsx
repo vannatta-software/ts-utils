@@ -22,7 +22,7 @@ export type Navigation = NavigationOptions[];
 export type NavigationOptions = {
     endpoint: string,
     label?: string,
-    icon?: JSX.Element,
+    icon?: any,
     children?: Navigation
 }
 
