@@ -27,44 +27,23 @@ jobs:
         id: get-token
         uses: tibdex/github-app-token@v1
         with:
-          app_id: ${{ secrets.ACCESS_ID }}
-          private_key: ${{ secrets.ACCESS_TOKEN }}
+          app_id: ${{ secrets.GITHUB_APP_ID }}
+          private_key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
 
-      - name: Debug Private Key
-        run: echo "${{ secrets.GITHUB_APP_PRIVATE_KEY }}" | head -n 5
-
-      - name: Verify Token Permissions
-        run: |
-          curl -H "Authorization: Bearer ${{ steps.get-token.outputs.token }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/repos/vannatta-software/ts-utils
-
-      - name: Verify Installation Token
-        run: |
-          curl -H "Authorization: Bearer ${{ steps.get-token.outputs.token }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/app/installations
-
-      - name: Get Installation ID
-        run: |
-          curl -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/repos/vannatta-software/ts-utils/installation
-
-
-      # Configure npm authentication for GitHub Packages
+      # Configure npm authentication
       - name: Configure npm authentication
         run: |
+          echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ steps.get-token.outputs.token }}" >> ~/.npmrc
 
       # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Build TypeScript project
+      # Build the TypeScript project
       - name: Build project
         run: npm run build
 
-      # Publish to GitHub Packages
+      # Publish the package to GitHub Packages
       - name: Publish to GitHub Packages
         run: npm publish
