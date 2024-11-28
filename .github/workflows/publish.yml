@@ -30,15 +30,16 @@ jobs:
           app_id: ${{ secrets.ACCESS_ID }}
           private_key: ${{ secrets.ACCESS_TOKEN }}
 
-      - name: Verify Token Permissions
-        run: |
-          curl -H "Authorization: Bearer ${{ steps.get-token.outputs.token }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/repos/vannatta-software/ts-utils
-              
       - name: Debug Token Length
         run: |
           echo "Token length: $(echo -n '${{ steps.get-token.outputs.token }}' | wc -c)"
+
+      - name: Test Token
+        run: |
+          curl -H "Authorization: Bearer ${{ steps.get-token.outputs.token }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/vannatta-software/ts-utils/permissions
+
 
       - name: Configure npm authentication
         run: |
