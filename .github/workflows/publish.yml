@@ -12,34 +12,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: '16'
 
-      # Configure npm authentication
       - name: Configure npm authentication
         run: |
           echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.DEPLOY_TOKEN }}" >> ~/.npmrc
 
-      # Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
 
-      # Run tests across all packages
-      - name: Run tests
-        run: npm run test
+      - name: Publish core package
+        run: |
+          cd packages/core
+          npm publish --access public
 
-      # Build the TypeScript project
-      - name: Build project
-        run: npm run build
+      - name: Publish domain package
+        run: |
+          cd packages/domain
+          npm publish --access public
 
-      # Publish to GitHub Packages
-      - name: Publish to GitHub Packages
-        run: lerna publish --yes 
+      # - name: Publish frontend package
+      #   run: |
+      #     cd packages/frontend
+      #     npm publish --access public

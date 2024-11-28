@@ -1,0 +1,39 @@
+name: Build All Packages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Build core package
+        run: |
+          cd packages/core
+          npm run build
+
+      - name: Build domain package
+        run: |
+          cd packages/domain
+          npm run build
+
+      # - name: Build frontend package
+      #   run: |
+      #     cd packages/frontend
+      #     npm run build
