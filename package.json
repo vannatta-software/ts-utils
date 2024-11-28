@@ -3,7 +3,6 @@
   "version": "1.0.1",
   "scripts": {
     "build": "lerna run build",
-    "bootstrap": "npm install",
     "publish": "lerna publish --yes",
     "test": "lerna run test --stream"
   },
