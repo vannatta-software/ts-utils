@@ -63,3 +63,12 @@ export const EndpointProvider: FunctionComponent<Props> = props => {
         </EndpointContext.Provider>
     )
 }
+
+export const useEndpoints: () => Context = () => {
+    const context = React.useContext(EndpointContext);
+
+    if (context == undefined)
+        throw new Error("useEndpoints must be used within an EndpointProvider")
+
+    return context;
+}
