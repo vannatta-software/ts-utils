@@ -38,7 +38,7 @@ jobs:
 
       - name: Debug Token
         run: |
-          echo "Token length: ${{ steps.get-token.outputs.token}}"
+          echo "Token length: ${{ steps.get-token.outputs.token_length }}"
 
       # Install dependencies
       - name: Install dependencies
