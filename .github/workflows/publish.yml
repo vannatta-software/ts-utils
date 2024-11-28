@@ -30,6 +30,9 @@ jobs:
           app_id: ${{ secrets.ACCESS_ID }}
           private_key: ${{ secrets.ACCESS_TOKEN }}
 
+      - name: Debug Private Key
+        run: echo "${{ secrets.GITHUB_APP_PRIVATE_KEY }}" | head -n 5
+
       - name: Verify Token Permissions
         run: |
           curl -H "Authorization: Bearer ${{ steps.get-token.outputs.token }}" \
