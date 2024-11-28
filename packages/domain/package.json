@@ -1,6 +1,6 @@
 {
-    "name": "@vannatta-software/ts-core",
-    "version": "1.0.2",
+    "name": "@vannatta-software/ts-domain",
+    "version": "1.0.0",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
@@ -8,8 +8,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "axios": "^1.7.8",
-        "reflect-metadata": "^0.2.2"
+        "@vannatta-software/ts-core": "^1.0.2"
     },
     "devDependencies": {
         "@types/jest": "^29.5.14",
