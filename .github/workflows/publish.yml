@@ -36,9 +36,15 @@ jobs:
           echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ steps.get-token.outputs.token }}" >> ~/.npmrc
 
-      - name: Debug Token
+      - name: Calculate Token Length
         run: |
-          echo "Token length: ${{ steps.get-token.outputs.token_length }}"
+          echo "token_length=${#token}" >> $GITHUB_ENV
+        env:
+          token: ${{ steps.get-token.outputs.token }}
+
+      # Debug Token Length
+      - name: Debug Token Length
+        run: echo "Token length: ${{ env.token_length }}"
 
       # Install dependencies
       - name: Install dependencies
