@@ -37,8 +37,8 @@ jobs:
               https://api.github.com/repos/vannatta-software/ts-utils
               
       - name: Debug Token Length
-        run: echo "Token length: ${#steps.get-token.outputs.token}"
-
+        run: |
+          echo "Token length: $(echo -n '${{ steps.get-token.outputs.token }}' | wc -c)"
 
       - name: Configure npm authentication
         run: |
