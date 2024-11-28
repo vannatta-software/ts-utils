@@ -30,6 +30,10 @@ jobs:
           app_id: ${{ secrets.ACCESS_ID }}
           private_key: ${{ secrets.ACCESS_TOKEN }}
 
+      - name: Debug Token
+        run: | 
+          echo "Token: ${{ steps.get-token.outputs.token }}"
+
       - name: List App Installations
         run: |
           curl -H "Authorization: Bearer ${{ steps.get-token.outputs.token }}" \
