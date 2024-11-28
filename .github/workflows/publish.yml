@@ -32,14 +32,17 @@ jobs:
       - name: Publish core package
         run: |
           cd packages/core
+          npm run build
           npm publish --access public
 
       - name: Publish domain package
         run: |
           cd packages/domain
+          npm run build
           npm publish --access public
 
       - name: Publish frontend package
         run: |
           cd packages/frontend
+          npm run build
           npm publish --access public
