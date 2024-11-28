@@ -6,3 +6,4 @@ export * from './GlobalIdentifier';
 export * from './Repository';
 export * from './UniqueIdentifier';
 export * from './ValueObject';
+export * from './Model';

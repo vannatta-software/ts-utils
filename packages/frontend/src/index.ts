@@ -2,7 +2,6 @@ export * from './BaseStore';
 export * from './ClientConnection';
 export * from './CookieUtils';
 export * from './EntityStore';
-export * from './FormModel';
 export * from './HttpUtils';
 export * from './ServiceConnection';
 export * from './endpoints';
