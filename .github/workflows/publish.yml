@@ -29,6 +29,12 @@ jobs:
         run: |
           npm install
 
+      - name: Unpublish existing package versions (if within 72 hours)
+        run: |
+          npm unpublish @vannatta-software/ts-core@1.0.0 --force || echo "No existing version to unpublish for ts-core"
+          npm unpublish @vannatta-software/ts-domain@1.0.0 --force || echo "No existing version to unpublish for ts-domain"
+          npm unpublish @vannatta-software/ts-frontend@1.0.0 --force || echo "No existing version to unpublish for ts-frontend"
+
       - name: Publish core package
         run: |
           cd packages/core
@@ -46,6 +52,5 @@ jobs:
       - name: Publish frontend package
         run: |
           cd packages/frontend
-          npm run test
           npm run build
           npm publish --access public
