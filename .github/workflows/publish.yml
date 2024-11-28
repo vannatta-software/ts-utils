@@ -30,22 +30,17 @@ jobs:
           app_id: ${{ secrets.ACCESS_ID }}
           private_key: ${{ secrets.ACCESS_TOKEN }}
 
+      - name: Verify Token Permissions
+        run: |
+          curl -H "Authorization: Bearer ${{ steps.get-token.outputs.token }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/vannatta-software/ts-utils
+
+
       # Configure npm authentication for GitHub Packages
       - name: Configure npm authentication
         run: |
-          echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ steps.get-token.outputs.token }}" >> ~/.npmrc
-
-      - name: Calculate Token Length
-        run: |
-          echo "token_length=${#token}" >> $GITHUB_ENV
-        env:
-          token: ${{ steps.get-token.outputs.token }}
-
-      # Debug Token Length
-      - name: Debug Token Length
-        run: |
-          echo "Token length: ${{ env.token_length }}"
 
       # Install dependencies
       - name: Install dependencies
