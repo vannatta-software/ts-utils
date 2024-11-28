@@ -44,7 +44,8 @@ jobs:
 
       # Debug Token Length
       - name: Debug Token Length
-        run: echo "Token length: ${{ env.token_length }}"
+        run: |
+          echo "Token length: ${{ env.token_length }}"
 
       # Install dependencies
       - name: Install dependencies
