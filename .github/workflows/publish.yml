@@ -29,6 +29,14 @@ jobs:
         run: |
           npm install
 
+      - name: Delete existing core package from registry (if exists)
+        run: |
+          npm unpublish @vannatta-software/ts-core --force || echo "No existing package found for @vannatta-software/ts-core"
+
+      # - name: Delete existing domain package from registry (if exists)
+      #   run: |
+      #     npm unpublish @vannatta-software/ts-domain --force || echo "No existing package found for @vannatta-software/ts-domain"
+
       - name: Publish core package
         run: |
           cd packages/core
