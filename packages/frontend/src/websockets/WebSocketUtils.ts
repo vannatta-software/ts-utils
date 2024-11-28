@@ -2,7 +2,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { ServiceHub } from '../ServiceConnection';
 import { io, Socket } from 'socket.io-client';
 import { v4 as uuid } from "uuid";
-import { StringUtils, ClassType } from '../StringUtils';
+import { StringUtils, ClassType } from '@vannatta-software/ts-core';
 
 type WebSocketConnections = { [key: string]: WebSocketConnection }
 type WebSocketStatus ={ [key: string]: boolean }

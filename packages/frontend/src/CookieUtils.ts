@@ -1,5 +1,5 @@
 export class CookieUtils {
-
+ 
     public static set(name: string, value: any, hours: number) {
       let expiry = new Date();
   

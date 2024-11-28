@@ -1,0 +1,30 @@
+{
+    "name": "@vannatta-software/ts-frontend",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@vannatta-software/ts-core": "^1.0.0",
+        "@vannatta-software/ts-domain": "^1.0.0",
+        "antd": "^5.13.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.21.3",
+        "socket.io-client": "^4.7.4",
+        "uuid": "^9.0.1",
+        "ws": "^8.15.1"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.14",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.1.0",
+        "typescript": "^5.2.2"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    }
+}

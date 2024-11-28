@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { ErrorResponse, SuccessResponse, IServerError } from './ResponseUtils';
+import { ErrorResponse, SuccessResponse, IServerError } from '@vannatta-software/ts-core'; 
 
 export class HttpUtils {
     public static replaceUrlPlaceholders(url: string, params: Record<string, any>): string {

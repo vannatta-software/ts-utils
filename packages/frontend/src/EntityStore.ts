@@ -1,9 +1,9 @@
 import { BaseStore } from './BaseStore';
-import { Entity as EntityModel } from "./seedwork/Entity";
+import { Entity as EntityModel } from "@vannatta-software/ts-domain";
 import React from "react";
 import { WebSocketConnection } from './websockets/WebSocketUtils';
 import { WebSocketContext } from './websockets/WebSocketProvider';
-import { ServiceConnection } from './ServiceConnection';
+import { ServiceConnection } from './ServiceConnection'; 
 
 export interface EntityState<Entity extends EntityModel> {
     entities: Entity[],

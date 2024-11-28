@@ -1,4 +1,4 @@
-type Connections<T extends string> = Record<T, ServiceConnection>;
+type Connections<T extends string> = Record<T, ServiceConnection>; 
 
 interface ConnectionSetting {
     host?: string;

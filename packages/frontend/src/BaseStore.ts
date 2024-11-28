@@ -84,7 +84,7 @@ export abstract class BaseStore<TState extends IState, TActions extends IActions
         return associatedActions;
     }
 
-    public static bindActions<Actions>(store: BaseStore<any, Actions>, actions: Partial<Actions>) {
+    public static bindActions<Actions extends IActions>(store: BaseStore<any, Actions>, actions: Partial<Actions>) {
         const [ acts ] = React.useState(actions);
 
         React.useEffect(() => { 

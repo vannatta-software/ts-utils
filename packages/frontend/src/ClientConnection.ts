@@ -12,12 +12,12 @@ export class ClientMap {
     }
 
     public connect(socket: Socket) {
-        this.sockets[socket.id] = socket;
+        this.sockets[socket.id ?? ""] = socket;
     }
 
     public disconnect(socket: Socket) {
         try {
-            delete this.sockets[socket.id];
+            delete this.sockets[socket.id ?? ""];
 
             Object.keys(this.applications).forEach(app => {
                 if (this.applications[app].id == socket.id)

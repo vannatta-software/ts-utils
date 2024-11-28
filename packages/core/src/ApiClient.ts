@@ -1,110 +1,99 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { IServerError, ErrorResponse, SuccessResponse, IServerResponse } from './ResponseUtils';
 
 export class ApiClient {
-  private logging: boolean = false;
-  private authToken?: string;
-  private xsrfToken?: string;
-  private connectionId?: string;
-  private host?: string;
+    private static logging: boolean = false;
+    private static succeed: (success:  SuccessResponse, resolve: any) => void = (s, r) => {}
+    private static fail: (success:  ErrorResponse<{}>, r: any) => void = (s, r) => {}
+    private static authToken: string | undefined;
+    private static xsrfToken: string | undefined;
+    private static connectionId: string | undefined;
+    private static host: string | undefined;
 
-  constructor(
-    private config: AxiosRequestConfig = { headers: { 'Content-Type': 'application/json' } }
-  ) {}
-
-  // Getters for tokens and host
-  get AuthenicationToken() {
-    return this.authToken;
-  }
-
-  get XSRFToken() {
-    return this.xsrfToken;
-  }
-
-  get Host() {
-    return this.host;
-  }
-
-  // Enable or disable logging
-  setLogging(state: boolean) {
-    this.logging = state;
-  }
-
-  // Set the authentication token
-  addAuthentication(authToken: string | undefined) {
-    this.authToken = authToken;
-    if (!authToken) this.authToken = undefined;
-  }
-
-  // Set the XSRF token
-  addXSRF(xsrfToken: string) {
-    this.xsrfToken = xsrfToken;
-    if (!xsrfToken) this.xsrfToken = undefined;
-  }
-
-  // Set the connection ID for WebSocket communication
-  websocketConnection(id: string | null | undefined) {
-    this.connectionId = id ?? '';
-  }
-
-  // Define the host for API requests
-  defineHost(host: string) {
-    this.host = host;
-    this.config.baseURL = host; // Apply the base URL to the config
-  }
-
-  // Configure request headers
-  private configureHeaders(config: AxiosRequestConfig) {
-    config.headers = config.headers || {};
-
-    if (this.authToken && !config.headers['Authorization']) {
-      config.headers['Authorization'] = `Bearer ${this.authToken}`;
+    public static get AuthenicationToken() { return ApiClient.authToken; }
+    public static get XSRFToken() { return ApiClient.xsrfToken; }
+    public static get Host() { return ApiClient.host; }
+    
+    public static setLogging(state: boolean) {
+        this.logging = state;
     }
 
-    if (this.xsrfToken) {
-      config.headers['RequestVerificationToken'] = this.xsrfToken;
+    public static onSuccess(callback: (success:  SuccessResponse, resolve?: any) => void) {
+        this.succeed = callback;
     }
 
-    if (this.connectionId) {
-      config.headers['Connection-Id'] = this.connectionId;
+    public static onFail(callback: (error: ErrorResponse<{}>, reject?: any) => void) {
+        this.fail = callback;
     }
 
-    // Logging the request configuration if enabled
-    if (this.logging) {
-      console.log('Request Configuration:', config);
-    }
-  }
+    public static addAuthentication(authToken: string | undefined) {
+        this.authToken = authToken;
 
-  // Improved request handling
-  public request<T>(config: AxiosRequestConfig): Promise<SuccessResponse<T>> {
-    this.configureHeaders(config);
-
-    if (config.data && config.data.constructor.name !== 'FormData') {
-      config.data = JSON.stringify(config.data); // Ensure JSON body for requests
+        if (authToken == "")
+            this.authToken = undefined;
     }
 
-    return new Promise((resolve, reject) => {
-      axios(config)
-        .then((response: AxiosResponse<IServerResponse<T>>) => {
-          const successResponse = new SuccessResponse(response.data);
+    public static defineHost(host: string | undefined) {
+        // this.host = host; 
+    }
 
-          // Logging the successful response if enabled
-          if (this.logging) {
-            console.log('Response:', successResponse);
-          }
+    public static addXSRF(xsrfToken: string) {
+        this.xsrfToken = xsrfToken;
 
-          resolve(successResponse);
+        if (xsrfToken == "")
+            this.xsrfToken = undefined;
+    }
+
+    public static websocketConnection(id: string | null | undefined) {
+        if (!!id)
+            this.connectionId = id;
+        else
+            this.connectionId = "";
+    }
+
+    private static configureHeaders(config: AxiosRequestConfig) {    
+        if (!config.headers)
+            config.headers = {};
+
+        if (!config.headers['Content-Type'])
+            config.headers['Content-Type'] = 'application/json';
+
+        if (this.authToken && !config.headers['Authorization'])
+            config.headers['Authorization'] = "Bearer " + this.authToken;
+
+        if (this.xsrfToken)
+            config.headers['RequestVerificationToken'] = this.xsrfToken;
+
+        config.headers['Connection-Id'] = this.connectionId ?? "";
+    }
+
+    public static request(config: AxiosRequestConfig): Promise<SuccessResponse> {
+        this.configureHeaders(config);
+
+        if (config.hasOwnProperty('data') && 
+            config.data.constructor.name != 'FormData') 
+            config.data = JSON.stringify(config.data);  
+    
+        return new Promise((resolve, reject) => {
+            axios(config)
+                .then((success:  IServerResponse) =>{  
+                    let response = new SuccessResponse(success);
+    
+                    if (this.logging)
+                        console.log(response);                   
+    
+                    this.succeed(response, resolve);                    
+                    resolve(response);
+                })
+                .catch((error: IServerError)=>{
+                    let response = new ErrorResponse(error);
+                    
+                    if (this.logging)
+                        console.log(response);     
+                    
+                    this.fail(response, reject);
+                    reject(response);
+                })
         })
-        .catch((error: any) => {
-          const errorResponse = new ErrorResponse(error.response);
-
-          // Logging the error response if enabled
-          if (this.logging) {
-            console.error('Error Response:', errorResponse);
-          }
-
-          reject(errorResponse);
-        });
-    });
-  }
+    }
 }

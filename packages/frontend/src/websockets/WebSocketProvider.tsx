@@ -1,4 +1,4 @@
-import { ApiClient } from "../ApiClient";
+import { ApiClient } from "@vannatta-software/ts-core";
 import React, { FunctionComponent, PropsWithChildren } from "react";
 import { WebSocketConnection, WebSocketService, WebSockets } from "./WebSocketUtils";
 
@@ -84,12 +84,12 @@ const WebSocketProvider: FunctionComponent<Props> = props => {
         }   
 
         service.forEach(s => connect(s));        
-        ApiClient.websocketConnection(WebSocketConnection.instanceId);
+        // ApiClient.websocketConnection(WebSocketConnection.instanceId);
         window.addEventListener("beforeunload", onClose);
 
         return () => {        
             onClose();
-            ApiClient.websocketConnection(undefined);
+            // ApiClient.websocketConnection(undefined);
             window.removeEventListener("beforeunload", onClose);
         }
     }, [ ]);
