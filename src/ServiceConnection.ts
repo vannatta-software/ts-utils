@@ -4,21 +4,26 @@ interface ConnectionSetting {
     host?: string;
     path?: string;
     port?: number;
-    hubs?: Record<string, string>
+    hubs?: Record<string, string>;
 }
 
 export class ServiceHub {
-    constructor (
+    constructor(
         public baseAddress: string,
         public hub: string,
         public name: string
-    ){
-        if (this.hub[0] != "/") 
+    ) {
+        if (this.hub[0] !== "/") 
             this.hub = "/" + this.hub;
     }
 
-    public get address() {            
+    public get address() {
         return `${this.baseAddress}${this.hub}`;
+    }
+
+    // Allows for easier construction of hub URLs based on other services.
+    public toString() {
+        return this.address;
     }
 }
 
@@ -40,29 +45,29 @@ export class ServiceConnection {
         this._notificationsHubs = setting.hubs ?? {};
         this.name = name;
 
+        // Default port to 80 if invalid
         if (isNaN(this._port))
             this._port = 80;
 
-        if (this._path == "/")
+        if (this._path === "/")
             this._path = "";
     }
 
     private get port() {
-        return this._port == 80 ? "" : `:${this._port}`;
+        return this._port === 80 ? "" : `:${this._port}`;
     }
 
     public get address() {       
         return `${this._host}${this.port}${this._namespace}${this._path}`;
     }
 
+    // Hub method to get a new ServiceHub for specific services
     public hub(hub: string) {
-        return new ServiceHub(
-            this.address, 
-            this._notificationsHubs[hub] ?? "/notifications",
-            this.name + "." + hub
-        )
+        const hubPath = this._notificationsHubs[hub] ?? "/notifications";
+        return new ServiceHub(this.address, hubPath, this.name + "." + hub);
     }
 
+    // Dynamically sets the namespace if applicable
     public setNamespace(namespace: string) {
         if (!this.name.includes("experiment") || !namespace || namespace === "")
             return;
@@ -74,14 +79,21 @@ export class ServiceConnection {
         return this.address;
     }
 
-    public static build<T extends string>(source: any, namespace: string = ""): Connections<T> {
+    // Static build method to create multiple ServiceConnections from a source
+    public static build<T extends string>(source: Record<string, ConnectionSetting>, namespace: string = ""): Connections<T> {
         let connections: Connections<any> = {};
-    
+
+        // Ensure each service has the correct connection setup
         Object.keys(source).forEach(serviceName => {
-            connections[serviceName] = new ServiceConnection(serviceName, source[serviceName]);
+            const connectionSetting = source[serviceName];
+            if (!connectionSetting || !connectionSetting.host) {
+                throw new Error(`Invalid connection setting for ${serviceName}`);
+            }
+
+            connections[serviceName] = new ServiceConnection(serviceName, connectionSetting);
             connections[serviceName].setNamespace(namespace);
         });
-    
-        return <Connections<T>> connections;
+
+        return <Connections<T>>connections;
     }
 }

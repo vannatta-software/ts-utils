@@ -3,7 +3,7 @@ export class Pattern {
     public static AlphaNumeric : RegExp = /^[A-Za-z0-9]+$/i;
     public static Numeric : RegExp = /^-?[0-9]+$/;
     public static Decimal : RegExp  = /^\s*(\+|-)?((\d+(\.\d+)?)|(\.\d+))\s*$/;
-    public static Currency : RegExp = /^\s*(\+|-)?((\d+(\.\d\d)?)|(\.\d\d))\s*$/;
+    public static Currency: RegExp = /^\s*(\+|-)?([€$£¥]?\d+(\.\d{2})?)\s*$/;
     public static Time : RegExp = /^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/;
     public static DateYMD : RegExp = /^(?:\2)(?:[0-9]{2})?[0-9]{2}([\/-])(1[0-2]|0?[1-9])([\/-])(3[01]|[12][0-9]|0?[1-9])$/;
     public static DateDMY : RegExp = /^(3[01]|[12][0-9]|0?[1-9])([\/-])(1[0-2]|0?[1-9])([\/-])(?:[0-9]{2})?[0-9]{2}$/;
@@ -81,9 +81,10 @@ export default class Validator {
     }
 
     private min(value: any, length: any) {
-        if (value.length < length) 
-            this.errors.push('Must be at least ' + length + ' characters long.');
-    }
+        const valueStr = value + ""; // Ensure it's treated as a string
+        if (valueStr.length < length) 
+            this.errors.push(`Must be at least ${length} characters long.`);
+    }    
 
     private email(value: any) {
         if ( !Pattern.Email.test(value))
@@ -116,21 +117,22 @@ export default class Validator {
 
     private strength(value: any, strength: any) {
         let result = { 
-            hasLower: value.match(/[a-z]/) === null ? false : true,
-            hasUpper: value.match(/[A-Z]/) === null ? false : true,
-            hasNumber: value.match(/\d+/) === null ? false : true,
-            hasSpecial: value.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) === null ? false : true
-        }
-
-        if(!result.hasLower && strength > 0) 
+            hasLower: /[a-z]/.test(value),
+            hasUpper: /[A-Z]/.test(value),
+            hasNumber: /\d/.test(value),
+            hasSpecial: /[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/.test(value)
+        };
+    
+        if (strength >= 0 && !result.hasLower) 
             this.errors.push('Must have at least 1 lower case character');
-        if(!result.hasUpper && strength > 1)             
+        if (strength >= 1 && !result.hasUpper)             
             this.errors.push('Must have at least 1 upper case character');
-        if(!result.hasNumber && strength > 2) 
+        if (strength >= 2 && !result.hasNumber) 
             this.errors.push('Must have at least 1 number');
-        if(!result.hasSpecial && strength > 3) 
+        if (strength >= 3 && !result.hasSpecial) 
             this.errors.push('Must have at least 1 special character');
     }
+    
 
     private url(value: any) {
         if (!Pattern.URL.test(value)) 

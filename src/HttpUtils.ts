@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { ErrorResponse, SuccessResponse, Response, IServerError } from './Response';
+import { ErrorResponse, SuccessResponse, IServerError } from './ResponseUtils';
 
 export class HttpUtils {
     public static replaceUrlPlaceholders(url: string, params: Record<string, any>): string {
@@ -24,7 +24,7 @@ class Get<T> {
     constructor(private url: string) {}
 
     async execute<Q = any>(query: Q): Promise<T> {
-        const url = HttpUtils.replaceUrlPlaceholders(this.url, query);
+        const url = HttpUtils.replaceUrlPlaceholders(this.url, query as any);
 
         return HttpUtils.handleRequest<T>(axios.get(url, { params: { ...query } }));
     }
@@ -34,7 +34,7 @@ class Post<T> {
     constructor(private url: string) {}
 
     async execute<C>(command: C): Promise<T> {
-        const url = HttpUtils.replaceUrlPlaceholders(this.url, command);
+        const url = HttpUtils.replaceUrlPlaceholders(this.url, command as any);
 
         return HttpUtils.handleRequest<T>(axios.post(url, command));
     }
@@ -44,7 +44,7 @@ class Put<T> {
     constructor(private url: string) {}
 
     async execute<C>(command: C): Promise<T> {
-        const url = HttpUtils.replaceUrlPlaceholders(this.url, command);
+        const url = HttpUtils.replaceUrlPlaceholders(this.url, command as any);
 
         return HttpUtils.handleRequest<T>(axios.put(url, command));
     }
@@ -54,7 +54,7 @@ class Patch<T> {
     constructor(private url: string) {}
 
     async execute<C>(command: C): Promise<T> {
-        const url = HttpUtils.replaceUrlPlaceholders(this.url, command);
+        const url = HttpUtils.replaceUrlPlaceholders(this.url, command as any);
         return HttpUtils.handleRequest<T>(axios.patch(url, command));
     }
 }
@@ -63,8 +63,8 @@ class Delete<T> {
     constructor(private url: string) {}
 
     async execute<C>(command: C): Promise<T> {
-        const url = HttpUtils.replaceUrlPlaceholders(this.url, command);
-        return HttpUtils.handleRequest<T>(axios.delete(url, command));
+        const url = HttpUtils.replaceUrlPlaceholders(this.url, command as any);
+        return HttpUtils.handleRequest<T>(axios.delete(url, command as any));
     }
 }
 

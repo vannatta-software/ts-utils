@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { IServerError, ErrorResponse, SuccessResponse, IServerResponse } from './Response';
+import { IServerError, ErrorResponse, SuccessResponse, IServerResponse } from './ResponseUtils';
 
 export class ApiClient {
     private static logging: boolean = false;
@@ -31,10 +31,6 @@ export class ApiClient {
 
         if (authToken == "")
             this.authToken = undefined;
-    }
-
-    public static defineHost(host: string | undefined) {
-        // this.host = host; 
     }
 
     public static addXSRF(xsrfToken: string) {

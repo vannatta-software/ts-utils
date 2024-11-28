@@ -31,6 +31,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # Run tests across all packages
+      - name: Run tests
+        run: npm run test
+
       # Build the TypeScript project
       - name: Build project
         run: npm run build

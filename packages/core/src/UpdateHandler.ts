@@ -27,17 +27,14 @@ export interface UpdateState {
   
     public setTimeout(timeout: number): void {
       const updateTimeout = timeout > 0 ? timeout : this._initialTimeout;
-    
-      // Update the timeout in state first
-      this.state.updateTimeout = updateTimeout;
-    
-      // If the timeout is different and already updating, restart the interval
-      if (this.state.isUpdating) {
-        this.stop();  // Stop the existing interval
-        this.start(); // Start a new interval with the updated timeout
+  
+      if (updateTimeout !== this.state.updateTimeout && this.state.isUpdating) {
+        this.stop();
+        this.start();
       }
+  
+      this.state.updateTimeout = updateTimeout;
     }
-    
   
     public start(): void {
       if (this.state.isUpdating) return;
