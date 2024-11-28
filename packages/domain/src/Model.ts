@@ -1,5 +1,37 @@
-import { RuleObject } from "rc-field-form/lib/interface";
-import { ModelErrors, Pattern } from "@vannatta-software/ts-core";
+import { ModelErrors } from "@vannatta-software/ts-core";
+
+type StoreValue = any;
+type Validator = (rule: RuleObject, value: StoreValue, callback: (error?: string) => void) => Promise<void | any> | void;
+type RuleType = 'string' | 'number' | 'boolean' | 'method' | 'regexp' | 'integer' | 'float' | 'object' | 'enum' | 'date' | 'url' | 'hex' | 'email';
+interface Rule {
+    warningOnly?: boolean;
+    enum?: StoreValue[];
+    len?: number;
+    max?: number;
+    message?: string | object;
+    min?: number;
+    pattern?: RegExp;
+    required?: boolean;
+    transform?: (value: StoreValue) => StoreValue;
+    type?: RuleType;
+    whitespace?: boolean;
+    validateTrigger?: string | string[];
+}
+
+interface ArrayRule extends Omit<AggregationRule, 'type'> {
+    type: 'array';
+    defaultField?: RuleObject;
+}
+
+export type RuleObject = AggregationRule | ArrayRule;
+
+export interface ValidatorRule {
+    warningOnly?: boolean;
+    message?: string | object;
+    validator: Validator;
+}
+
+type AggregationRule = Rule & Partial<ValidatorRule>;
 
 export type ValueStore<T = any> = {
     [P in keyof T]?: any;
@@ -8,12 +40,12 @@ export type ValueStore<T = any> = {
 type ValidateStatus = "success" | "warning" | "error" | "validating" | "";
 
 export function Validation(rule: RuleObject) {    
-    return function (target: FormModel, propertyKey: string) {        
-        let model = FormModel.Validation[target.constructor.name];
+    return function (target: Model, propertyKey: string) {        
+        let model = Model.Validation[target.constructor.name];
 
         if (model == undefined) {
-            FormModel.Validation[target.constructor.name] = {};
-            model = FormModel.Validation[target.constructor.name];
+            Model.Validation[target.constructor.name] = {};
+            model = Model.Validation[target.constructor.name];
         }
 
         if (model[propertyKey] == undefined)
@@ -28,7 +60,7 @@ export function Validation(rule: RuleObject) {
 
 type ModelValidation = { [property: string]: RuleObject[] };
 
-export class FormError {
+export class ValidationError {
     constructor(private _errors: string[]) { }    
 
     public get all(): string[] {
@@ -47,34 +79,25 @@ export class FormError {
         return this._errors[this._errors.length -1];
     }
 
-    public static map(errors: ModelErrors): FormErrors {
+    public static map(errors: ModelErrors): AggregateModelError {
         let errorMap = {};
 
         Object.keys(errors).forEach(field => 
-            errorMap[field] = new FormError(errors[field]));
+            errorMap[field] = new ValidationError(errors[field]));
 
         return errorMap;
     }
 }
 
-export type FormErrors = {
-    [error: string]: FormError
+export type AggregateModelError = {
+    [error: string]: ValidationError
 }
 
-export interface FormModelProviderProps<T extends FormModel> {
-    model: FormModel,
-    onSubmit: (values: T) => Promise<any>
-}
-
-export interface FormModelItemProviderProps  {
-    field: string
-}
-
-export class FormModel {    
+export class Model {    
     public static Validation: { [model: string]: ModelValidation } = {};
 
     public get validation() {
-        return FormModel.Validation[this.constructor.name] ?? {};
+        return Model.Validation[this.constructor.name] ?? {};
     }
 
     public copy(values: ValueStore | undefined) {
@@ -94,7 +117,7 @@ export class FormModel {
         return this;
     }
 
-    public copyArray<T extends FormModel>(type: { new(): T; }, values: ValueStore<T> | undefined, list: string) {
+    public copyArray<T extends Model>(type: { new(): T; }, values: ValueStore<T> | undefined, list: string) {
         values?.[list]?.forEach(model => this[list]?.push(new type().copy(model)))
     }
 }
