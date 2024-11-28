@@ -79,7 +79,7 @@ export class ValidationError {
         return this._errors[this._errors.length -1];
     }
 
-    public static map(errors: ModelErrors): AggregateModelError {
+    public static map(errors: ModelErrors): ValidationErrorMap {
         let errorMap = {};
 
         Object.keys(errors).forEach(field => 
@@ -89,7 +89,7 @@ export class ValidationError {
     }
 }
 
-export type AggregateModelError = {
+export type ValidationErrorMap = {
     [error: string]: ValidationError
 }
 
