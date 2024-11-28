@@ -37,7 +37,8 @@ jobs:
           echo "//npm.pkg.github.com/:_authToken=${{ steps.get-token.outputs.token }}" >> ~/.npmrc
 
       - name: Debug Token
-        run: echo "Token length: ${#steps.get-token.outputs.token}"
+        run: |
+          echo "Token length: ${#steps.get-token.outputs.token}"
 
       # Install dependencies
       - name: Install dependencies
