@@ -2,6 +2,7 @@
     "compilerOptions": {
       "downlevelIteration": true,
       "experimentalDecorators": true,
+      "outDir": "./dist",
       "jsx": "react-jsx",
       "declaration": true,
       "esModuleInterop": true,
