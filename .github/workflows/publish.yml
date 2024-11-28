@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Publish to GitHub Packages
 
 on:
   push:
@@ -20,7 +20,21 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          registry-url: https://registry.npmjs.org/
+          registry-url: https://npm.pkg.github.com/
+
+      # Authenticate with GitHub App Token
+      - name: Authenticate with GitHub App Token
+        id: get-token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GITHUB_APP_ID }}
+          private_key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+
+      # Configure npm authentication for GitHub Packages
+      - name: Configure npm authentication
+        run: |
+          echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ steps.get-token.outputs.token }}" >> ~/.npmrc
 
       # Install dependencies
       - name: Install dependencies
@@ -30,8 +44,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # Publish the package to npm
-      - name: Publish package
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+      # Publish to GitHub Packages
+      - name: Publish to GitHub Packages
         run: npm publish
