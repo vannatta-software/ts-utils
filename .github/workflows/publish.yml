@@ -30,7 +30,7 @@ jobs:
 
       # Install dependencies
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       # Run tests across all packages
       - name: Run tests
@@ -42,4 +42,4 @@ jobs:
 
       # Publish to GitHub Packages
       - name: Publish to GitHub Packages
-        run: npx lerna publish from-git --yes
+        run: lerna publish --yes 
