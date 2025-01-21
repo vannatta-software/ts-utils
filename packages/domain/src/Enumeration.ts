@@ -21,6 +21,20 @@ export abstract class Enumeration {
         return this.name;
     }
 
+    static getAllInstances<T>(enumClass: new (...args: any[]) => T): T[] {
+        const instances: T[] = [];
+        const keys = Object.getOwnPropertyNames(enumClass);
+
+        keys.forEach((key) => {
+            const value = (enumClass as any)[key];
+            if (value instanceof enumClass) {
+                instances.push(value);
+            }
+        });
+
+        return instances;
+    }
+
     equals(other: Enumeration): boolean {
         if (!other) return false;
 
@@ -35,6 +49,54 @@ export abstract class Enumeration {
         return Math.abs(firstValue.id - secondValue.id);
     }
 
+    /**
+     * Finds an enumeration instance by name.
+     * @param enumClass The enumeration class to search.
+     * @param name The name of the instance to find.
+     * @returns The matching instance or throws an error if not found.
+     */
+    static fromName<T extends { name: string }>(
+        enumClass: new (...args: any[]) => T,
+        name: string
+    ): T {
+        if (!name) {
+            throw new Error("No value was provided for the enum")
+        }
+
+        const allInstances = this.getAllInstances(enumClass);
+        const instance = allInstances.find(
+            (instance) => instance.name.toLowerCase() === name.toLowerCase()
+        );
+
+        if (!instance) {
+            throw new Error(
+                `No instance found with name: ${name}. Available: ${allInstances
+                    .map((i) => i.name)
+                    .join(", ")}`
+            );
+        }
+
+        return instance;
+    }
+    
+    static from<T extends { id: string }>(
+        enumClass: new (...args: any[]) => T,
+        id: string
+    ): T {
+        if (!id) {
+            throw new Error("No value was provided for the enum")
+        }
+
+        const allInstances = this.getAllInstances(enumClass);
+        const state = allInstances.find(s => s.id === id);
+
+        if (!state) {
+            throw new Error(`Possible values for ${this.name}: ${allInstances.map(s => s.id).join(", ")}`);
+        }
+
+        return state as T;
+    }
+
     fromName<T extends Enumeration>(name?: string): T {
         const list = this.getAllInstances<T>();
         const formattedName = name ? name.toLowerCase() : "";
@@ -45,6 +107,15 @@ export abstract class Enumeration {
         }
 
         return state as T;
+    }
+    
+    /**
+     * Retrieves the names of all static instances of an enumeration class.
+     * @param enumClass The enumeration class to extract names from.
+     * @returns An array of names of all static instances.
+     */
+       static names<T extends { name: string }>(enumClass: new (...args: any[]) => T): string[] {
+        return this.getAllInstances(enumClass).map((instance) => instance.name);
     }
 
     from<T extends Enumeration>(id: number): T {
@@ -58,12 +129,12 @@ export abstract class Enumeration {
         return state as T;
     }
 
-    getAllInstances<T extends Enumeration>(): T[] {
-        return Enumeration.registry.filter(e => e instanceof this.constructor) as T[];
-    }
-
     static difference(firstValue: Enumeration, secondValue: Enumeration): number {
         return Math.abs(firstValue.id - secondValue.id);
+    }
+
+    getAllInstances<T extends Enumeration>(): T[] {
+        return Enumeration.registry.filter(e => e instanceof this.constructor) as T[];
     }
 
     compareTo(other: Enumeration): number {

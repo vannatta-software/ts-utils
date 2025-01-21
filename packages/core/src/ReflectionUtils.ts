@@ -2,6 +2,13 @@ import 'reflect-metadata';
 
 export enum FieldType {
   Text = "Text",
+  Date = "Date",
+  DateRange = "DateRange",
+  Blob = "Blob",
+  Boolean = "Boolean",
+  List = "List",
+  Object = "Object",
+  ObjectList = "ObjectList",
   TextArea = "TextArea",
   Number = "Number",
   Select = "Select",
@@ -13,6 +20,7 @@ export enum ViewType {
   Number = "Number",
   Embedded = "Embedded",
   Date = "Date",
+  DateRange = "DateRange",
   Tag = "Tag",
   Enumeration = "Enumeration",
   List = "List",
