@@ -22,10 +22,10 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        run: npm i --workspace=packages/core 
+        run: npm ci
 
       - name: Build packages
-        run: npm run build  --workspace=packages/core 
+        run: npm run build
         
       - name: Semantic Release
         env:
