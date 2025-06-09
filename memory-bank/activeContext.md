@@ -1,26 +1,30 @@
 # Active Context
 
 ## Current Work Focus
-Reviewing and updating the memory bank for the TS-Utils project based on user feedback.
+Resolved internal package reference issues and incorrect imports in the TS-Utils monorepo.
 
 ## Recent Changes
-- Initialized all core memory bank files: `projectbrief.md`, `productContext.md`, `activeContext.md`, `systemPatterns.md`, `techContext.md`, and `progress.md`.
+- Configured TypeScript path aliases in `packages/domain/tsconfig.json` and `packages/frontend/tsconfig.json` to correctly resolve internal package imports.
+- Corrected import paths in the following files to use package names (e.g., `@vannatta-software/ts-utils-core` or `@vannatta-software/ts-domain`) which are now resolved by the new path aliases:
+    - `packages/domain/src/Enumeration.ts`
+    - `packages/domain/src/GlobalIdentifier.ts`
+    - `packages/domain/src/Model.ts`
+    - `packages/domain/src/UniqueIdentifier.ts`
+    - `packages/frontend/src/HttpUtils.ts`
+    - `packages/frontend/src/websockets/WebSocketUtils.ts`
 
 ## Next Steps
-- Review `systemPatterns.md`.
-- Review `techContext.md`.
-- Review `progress.md`.
-- Confirm all memory bank files are up-to-date.
+- Verify that all packages build successfully and that there are no remaining import resolution issues.
+- Continue with other pending tasks as outlined in `progress.md`.
 
 ## Active Decisions and Considerations
-- Ensuring all core memory bank files are present and contain initial, relevant information.
-- The content of these initial files is based on the current understanding of the TS-Utils project structure and purpose.
+- The decision to use TypeScript path aliases was crucial for resolving internal package references in the monorepo setup. This approach maintains the published package naming convention while allowing for seamless development within the monorepo.
 
 ## Important Patterns and Preferences
 - Adhering to the specified memory bank structure and file naming conventions.
 - Providing clear and concise information in each memory bank file.
+- Prioritizing TypeScript's built-in features (like path aliases) for monorepo management over complex build configurations.
 
 ## Learnings and Project Insights
-- The TS-Utils project is a monorepo containing `core`, `domain`, and `frontend` packages.
-- Each package has its own `tsconfig.json` and `jest.config.js`, indicating independent build and test configurations.
-- The `src` directories within each package contain various utility files, suggesting a modular design.
+- Monorepo setups with internal package dependencies require careful `tsconfig.json` configuration, specifically using `paths` to map package names to their source directories.
+- It's important to distinguish between published package names and internal relative paths, and to use `paths` to bridge this gap for development.

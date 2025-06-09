@@ -1,4 +1,4 @@
-import { Schema } from "@vannatta-software/ts-core";
+import { Schema } from "@vannatta-software/ts-utils-core";
 
 export abstract class Enumeration {
     @Schema({ type: Number })

@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { Schema } from "@vannatta-software/ts-core";
+import { Schema } from "@vannatta-software/ts-utils-core";
 
 export class GlobalIdentifier {
     @Schema({ type: String, default: function genUUID() {

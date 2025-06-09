@@ -1,4 +1,4 @@
-import { Schema } from "@vannatta-software/ts-core";
+import { Schema } from "@vannatta-software/ts-utils-core";
 import { IDomainEvent } from "./Events";
 import { GlobalIdentifier } from "./GlobalIdentifier";
 import { UniqueIdentifier } from "./UniqueIdentifier";

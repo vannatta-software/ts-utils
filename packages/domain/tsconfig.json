@@ -11,6 +11,11 @@
         "noImplicitAny": false,  
         "strictPropertyInitialization": false, 
         "noFallthroughCasesInSwitch": true,
+        "baseUrl": ".",
+        "paths": {
+            "@vannatta-software/ts-utils-core": ["../core/src"],
+            "@vannatta-software/ts-domain": ["./src"]
+        }
     },
     "include": ["src/**/*"],
     "exclude": [
@@ -21,4 +26,3 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
 }
-  

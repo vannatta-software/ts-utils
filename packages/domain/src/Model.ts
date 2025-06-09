@@ -1,4 +1,4 @@
-import { ModelErrors } from "@vannatta-software/ts-core";
+import { ModelErrors } from "@vannatta-software/ts-utils-core";
 
 type StoreValue = any;
 type Validator = (rule: RuleObject, value: StoreValue, callback: (error?: string) => void) => Promise<void | any> | void;
