@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, CancelTokenSource, AxiosInstance } from 'axios';
-import { ErrorResponse, SuccessResponse, IServerError } from '@vannatta-software/ts-core';
+import { ErrorResponse, IServerError, SuccessResponse } from './ResponseUtils';
 
 export interface HttpClientConfig extends Omit<AxiosRequestConfig, 'url'> {
     baseURL?: string;

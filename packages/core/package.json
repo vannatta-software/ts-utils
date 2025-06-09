@@ -1,5 +1,5 @@
 {
-    "name": "@vannatta-software/ts-core",
+    "name": "@vannatta-software/ts-utils-core",
     "version": "1.2.2",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
