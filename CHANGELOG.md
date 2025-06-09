@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/vannatta-software/ts-utils/compare/v1.1.0...v1.1.1) (2025-06-09)
+
+
+### Bug Fixes
+
+* updated path issues ([1fb39b6](https://github.com/vannatta-software/ts-utils/commit/1fb39b6cd18a5171ea468c20d26e11bb6ab9e01a))
+
 # [1.1.0](https://github.com/vannatta-software/ts-utils/compare/v1.0.0...v1.1.0) (2025-06-09)
 
 
