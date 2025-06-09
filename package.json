@@ -8,9 +8,15 @@
   "author": "josh-vannatta",
   "license": "ISC",
   "description": "",
-  "dependencies": {
+  "scripts": {
+    "build": "tsc -b"
   },
-  "devDependencies": {
-    "typescript": "^5.2.2"
-  }
+    "devDependencies": {
+        "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/git": "^10.0.1",
+        "@semantic-release/github": "^9.0.0",
+        "@semantic-release/npm": "^11.0.0",
+        "semantic-release": "^22.0.0",
+        "typescript": "^5.2.2"
+    }
 }

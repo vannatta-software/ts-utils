@@ -1,50 +1,34 @@
-name: Publish to GitHub Packages
+name: Release
 
 on:
   push:
     branches:
       - main
-      - monorepo
-  workflow_dispatch:
 
 jobs:
-  publish:
+  release:
+    name: Release
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-
-      - name: Configure npm authentication
-        run: |
-          echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.DEPLOY_TOKEN }}" >> ~/.npmrc
+          node-version: "20"
 
       - name: Install dependencies
-        run: |
-          npm install
+        run: npm ci
 
-      - name: Publish core package
-        run: |
-          cd packages/core
-          npm run test
-          npm run build
-          npm publish --access public
+      - name: Build packages
+        run: npm run build --workspace=packages/core && npm run build --workspace=packages/domain && npm run build --workspace=packages/frontend
 
-      - name: Publish domain package
-        run: |
-          cd packages/domain
-          npm run test
-          npm run build
-          npm publish --access public
-
-      - name: Publish frontend package
-        run: |
-          cd packages/frontend
-          npm run build
-          npm publish --access public
+      - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
