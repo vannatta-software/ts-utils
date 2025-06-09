@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/vannatta-software/ts-utils/compare/v1.0.0...v1.1.0) (2025-06-09)
+
+
+### Features
+
+* added npm publish for packages ([be7a269](https://github.com/vannatta-software/ts-utils/commit/be7a2691a16ed1f254ccf65b462935a80fa4b4e4))
+
 # 1.0.0 (2025-06-09)
 
 
