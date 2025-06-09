@@ -9,7 +9,8 @@
   "license": "ISC",
   "description": "",
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "test": "jest"
   },
     "devDependencies": {
         "@semantic-release/changelog": "^6.0.3",
