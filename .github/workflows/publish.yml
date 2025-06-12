@@ -36,6 +36,9 @@ jobs:
           npm publish --access public
           cd ../..
 
+      - name: Wait for NPM propagation
+        run: sleep 30
+
       - name: Build and Publish Domain
         run: |
           cd packages/domain
@@ -44,6 +47,9 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           npm publish --access public
           cd ../..
+
+      - name: Wait for NPM propagation
+        run: sleep 30
 
       - name: Build and Publish Frontend
         run: |
