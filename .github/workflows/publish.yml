@@ -32,6 +32,7 @@ jobs:
           cd packages/core
           npm ci
           npm run build
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           npm version patch
           npm publish --access public
           cd ../..
@@ -41,6 +42,7 @@ jobs:
           cd packages/domain
           npm ci
           npm run build
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           npm version patch
           npm publish --access public
           cd ../..
@@ -50,6 +52,7 @@ jobs:
           cd packages/frontend
           npm ci
           npm run build
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           npm version patch
           npm publish --access public
           cd ../..
