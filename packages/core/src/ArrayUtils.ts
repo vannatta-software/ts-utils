@@ -5,7 +5,7 @@ export class ArrayUtils {
     public static flatten<T>(connections: (T | T[])[]): T[] {
       return connections.reduce<T[]>((out, conn) => {
         if (Array.isArray(conn)) {
-          return out.concat(conn);
+          return out.concat(conn); 
         }
         out.push(conn);
         return out;
