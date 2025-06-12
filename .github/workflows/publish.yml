@@ -30,7 +30,7 @@ jobs:
       - name: Build and Publish Core
         run: |
           cd packages/core
-          npm ci
+          npm i
           npm run build
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           npm publish --access public
@@ -42,7 +42,7 @@ jobs:
       - name: Build and Publish Domain
         run: |
           cd packages/domain
-          npm ci
+          npm i
           npm run build
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           npm publish --access public
@@ -54,7 +54,7 @@ jobs:
       - name: Build and Publish Frontend
         run: |
           cd packages/frontend
-          npm ci
+          npm i
           npm run build
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           npm publish --access public
