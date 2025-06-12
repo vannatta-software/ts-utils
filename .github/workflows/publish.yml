@@ -27,15 +27,26 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Build and Publish Packages
+      - name: Build and Publish Core
         run: |
-          for package in packages/*; do
-            if [ -d "$package" ]; then
-              echo "--- Building and publishing $package ---"
-              cd "$package"
-              npm ci
-              npm run build
-              npx semantic-release
-              cd -
-            fi
-          done
+          cd package/core
+          npm ci
+          npm run build
+          npx semantic-release
+          cd ../..
+
+      - name: Build and Publish Domain
+        run: |
+          cd package/core
+          npm ci
+          npm run build
+          npx semantic-release
+          cd ../..
+
+      - name: Build and Publish Frontend
+        run: |
+          cd package/core
+          npm ci
+          npm run build
+          npx semantic-release
+          cd ../..
