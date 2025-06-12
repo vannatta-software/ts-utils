@@ -37,7 +37,7 @@ jobs:
 
       - name: Build and Publish Domain
         run: |
-          cd packages/core
+          cd packages/domain
           npm ci
           npm run build
           npx semantic-release
@@ -45,7 +45,7 @@ jobs:
 
       - name: Build and Publish Frontend
         run: |
-          cd packages/core
+          cd packages/frontend
           npm ci
           npm run build
           npx semantic-release
