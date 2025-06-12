@@ -1,4 +1,4 @@
-import { ApiClient } from "@vannatta-software/ts-core";
+import { ApiClient } from "@vannatta-software/ts-utils-core";
 import React, { FunctionComponent, PropsWithChildren } from "react";
 import { WebSocketConnection, WebSocketService, WebSockets } from "./WebSocketUtils";
 

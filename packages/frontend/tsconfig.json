@@ -13,11 +13,6 @@
         "strictPropertyInitialization": false, 
         "noFallthroughCasesInSwitch": true,
         "baseUrl": ".",
-        "paths": {
-            "@vannatta-software/ts-utils-core": ["../core/src"],
-            "@vannatta-software/ts-domain": ["../domain/src"],
-            "@vannatta-software/ts-frontend": ["./src"]
-        }
     },
     "include": ["src/**/*"],
     "exclude": [

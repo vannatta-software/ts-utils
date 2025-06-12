@@ -24,14 +24,15 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install dependencies
-        run: npm ci 
-
-      - name: Build packages
-        run: npm run build --workspace=packages/domain 
-        
-      - name: Semantic Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+      - name: Build and Publish Packages
+        run: |
+          for package in packages/*; do
+            if [ -d "$package" ]; then
+              echo "--- Building and publishing $package ---"
+              cd "$package"
+              npm ci
+              npm run build
+              npx semantic-release
+              cd -
+            fi
+          done

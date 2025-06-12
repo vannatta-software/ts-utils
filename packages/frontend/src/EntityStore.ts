@@ -1,5 +1,5 @@
 import { BaseStore } from './BaseStore';
-import { Entity as EntityModel } from "@vannatta-software/ts-domain";
+import { Entity as EntityModel } from "@vannatta-software/ts-utils-domain";
 import React from "react";
 import { WebSocketConnection } from './websockets/WebSocketUtils';
 import { WebSocketContext } from './websockets/WebSocketProvider';
