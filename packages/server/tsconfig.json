@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "emitDecoratorMetadata": true,
+        "downlevelIteration": true,
+        "experimentalDecorators": true,
+        "declaration": true,
+        "esModuleInterop": true,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "noImplicitAny": false,  
+        "strictPropertyInitialization": false, 
+        "noFallthroughCasesInSwitch": true,
+        "baseUrl": "."
+    },
+    "include": ["src"],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ],
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext"
+}

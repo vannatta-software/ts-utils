@@ -1,20 +1,15 @@
 # Active Context
 
 ## Current Work Focus
-Resolved internal package reference issues and incorrect imports in the TS-Utils monorepo.
+Setting up a new `server` package for server infrastructure elements within the TS-Utils monorepo.
 
 ## Recent Changes
-- Configured TypeScript path aliases in `packages/domain/tsconfig.json` and `packages/frontend/tsconfig.json` to correctly resolve internal package imports.
-- Corrected import paths in the following files to use package names (e.g., `@vannatta-software/ts-utils-core` or `@vannatta-software/ts-domain`) which are now resolved by the new path aliases:
-    - `packages/domain/src/Enumeration.ts`
-    - `packages/domain/src/GlobalIdentifier.ts`
-    - `packages/domain/src/Model.ts`
-    - `packages/domain/src/UniqueIdentifier.ts`
-    - `packages/frontend/src/HttpUtils.ts`
-    - `packages/frontend/src/websockets/WebSocketUtils.ts`
+- Created the `packages/server` directory and its initial files (`package.json`, `tsconfig.json`, `jest.config.js`, `src/index.ts`).
+- Updated `lerna.json` to include the new `packages/server` in the monorepo.
+- Updated `memory-bank/projectbrief.md` to reflect the addition of the `server` package.
 
 ## Next Steps
-- Verify that all packages build successfully and that there are no remaining import resolution issues.
+- Review existing NestJS-flavored server elements and abstract them for broader use across different server frameworks (NestJS, Express).
 - Continue with other pending tasks as outlined in `progress.md`.
 
 ## Active Decisions and Considerations
