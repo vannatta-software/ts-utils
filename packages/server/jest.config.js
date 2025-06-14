@@ -5,5 +5,7 @@ module.exports = {
     testMatch: ['**/__tests__/**/*.(test|spec).ts'],
     collectCoverage: true,
     coverageDirectory: '../coverage',
-    setupFilesAfterEnv: ['<rootDir>/setupTests.ts']
+    coveragePathIgnorePatterns: [
+        '<rootDir>/websockets/client.map.ts' // Exclude client.map.ts from coverage
+    ]
 };
