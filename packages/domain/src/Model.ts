@@ -122,8 +122,8 @@ export class Model {
         values?.[list]?.forEach(model => this[list]?.push(new type().copy(model)))
     }
 
-    public validate(): ValidationState {
-        const validation = this.validation;
+    public static validate(model: Model): ValidationState {
+        const validation = model.validation;
 
         if (!validation) return;
 

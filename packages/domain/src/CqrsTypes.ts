@@ -3,7 +3,7 @@ import { GlobalIdentifier } from "./GlobalIdentifier";
 import { Model } from "./Model";
 import { IDomainEvent } from "./Events";
 
-export type DTO<T> = Omit<T, "validation" | "copy" | "copyArray" | "_domainEvents">;
+export type DTO<T> = Omit<T, "validation" | "copy" | "copyArray" | "_domainEvents" | "validate">;
 
 export abstract class Command<TResult = void> extends Model {
     readonly __resultType?: TResult; // Phantom type for result inference
