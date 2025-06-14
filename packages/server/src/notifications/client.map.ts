@@ -1,9 +1,9 @@
-import { Socket } from 'socket.io'; // Use Socket directly
+import { INotifiableClient } from '../notifications/notifiable.client';
 
 export class ClientMap {
-    public users: Record<string, Socket[]>;
-    public applications: Record<string, Socket>;
-    public sockets: Record<string, Socket>;
+    public users: Record<string, INotifiableClient[]>;
+    public applications: Record<string, INotifiableClient>;
+    public sockets: Record<string, INotifiableClient>;
 
     constructor( ) {
         this.sockets = {}
@@ -11,27 +11,27 @@ export class ClientMap {
         this.users = {}
     }
 
-    public connect(client: Socket) {
-        this.sockets[client.id ?? ""] = client;
+    public connect(client: INotifiableClient) {
+        this.sockets[client.clientId ?? ""] = client;
     }
 
-    public disconnect(client: Socket) {
+    public disconnect(client: INotifiableClient) {
         try {
-            delete this.sockets[client.id ?? ""];
+            delete this.sockets[client.clientId ?? ""];
 
             Object.keys(this.applications).forEach(app => {
-                if (this.applications[app].id == client.id)
+                if (this.applications[app].clientId == client.clientId)
                     delete this.applications[app]
             })
             
             Object.keys(this.users).forEach(user => {
-                this.users[user] = this.users[user].filter(s => s.id != client.id)
+                this.users[user] = this.users[user].filter(s => s.clientId != client.clientId)
             })
         } catch {
         }
     }
 
-    public remember(client: Socket, app: string) {
+    public remember(client: INotifiableClient, app: string) {
         this.applications[app] = client;
     }   
 
@@ -39,8 +39,8 @@ export class ClientMap {
         delete this.applications[app];
     }
 
-    public login(client: Socket, userId: string) {  
-        this.users[userId] = this.users[userId]?.filter(s => s.id != client.id);
+    public login(client: INotifiableClient, userId: string) {  
+        this.users[userId] = this.users[userId]?.filter(s => s.clientId != client.clientId);
         this.getSockets(userId).push(client);
     }   
 
@@ -60,7 +60,7 @@ export class ClientMap {
         }
     }
 
-    public getSockets(userId: string): Socket[] {
+    public getSockets(userId: string): INotifiableClient[] {
         try {
             if (!this.users[userId])
                 this.users[userId] = [];
@@ -76,17 +76,17 @@ export class ClientMap {
 
         result += `Sockets: ${Object.keys(this.sockets).length} \n`;
         Object.keys(this.sockets).forEach((socketId) => {
-            result += `  ${this.sockets[socketId].id}\n`; // Use socket.id for logging
+            result += `  ${this.sockets[socketId].clientId}\n`; // Use clientId for logging
         });
 
         result += `Applications: ${Object.keys(this.applications).length} \n`;
         Object.keys(this.applications).forEach((app) => {
-            result += `  ${app}: ${this.applications[app].id}\n`;
+            result += `  ${app}: ${this.applications[app].clientId}\n`;
         });
 
         result += `Users: ${Object.keys(this.users).length} \n`;
         Object.keys(this.users).forEach((user) => {
-            result += `  ${user}: [${this.users[user].map(s => s.id).join(', ')}]\n`;
+            result += `  ${user}: [${this.users[user].map(s => s.clientId).join(', ')}]\n`;
         });
 
         return result;
