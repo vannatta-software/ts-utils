@@ -35,7 +35,7 @@ jobs:
       - name: Lerna Versioning
         run: npx lerna version --conventional-commits --yes
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
       - name: Wait for npm propagation
         run: sleep 30
