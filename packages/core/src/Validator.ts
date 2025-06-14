@@ -13,7 +13,7 @@ export class Pattern {
     public static CreditCard: RegExp = /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9]{2})[0-9]{12}|3[47][0-9]{13})$/;  // Simple credit card regex
 }
 
-export default class Validator {
+export class Validator {
     public errors: string[] = [];
 
     private alphaNumeric(value: any) {

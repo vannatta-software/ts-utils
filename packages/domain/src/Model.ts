@@ -1,7 +1,7 @@
-import { ModelErrors } from "@vannatta-software/ts-utils-core";
+import { ModelErrors, Validator } from "@vannatta-software/ts-utils-core";
 
 type StoreValue = any;
-type Validator = (rule: RuleObject, value: StoreValue, callback: (error?: string) => void) => Promise<void | any> | void;
+type ValidateAction = (rule: RuleObject, value: StoreValue, callback: (error?: string) => void) => Promise<void | any> | void;
 type RuleType = 'string' | 'number' | 'boolean' | 'method' | 'regexp' | 'integer' | 'float' | 'object' | 'enum' | 'date' | 'url' | 'hex' | 'email';
 interface Rule {
     warningOnly?: boolean;
@@ -28,7 +28,7 @@ export type RuleObject = AggregationRule | ArrayRule;
 export interface ValidatorRule {
     warningOnly?: boolean;
     message?: string | object;
-    validator: Validator;
+    validator: ValidateAction;
 }
 
 type AggregationRule = Rule & Partial<ValidatorRule>;
@@ -119,5 +119,58 @@ export class Model {
 
     public copyArray<T extends Model>(type: { new(): T; }, values: ValueStore<T> | undefined, list: string) {
         values?.[list]?.forEach(model => this[list]?.push(new type().copy(model)))
+    }
+
+    public validateModel(model: Model): { isValid: boolean; errors: { [key: string]: string[] } } {
+                const validation = model.validation;
+        if (!validation) return;
+
+        const modelErrors: { [key: string]: string[] } = {};
+        const validator = new Validator();
+
+        Object.entries(validation).forEach(([field, rules]) => {
+            try {
+                const value = model[field];
+                const isRequiredField = rules.some(rule => rule.required);
+
+                const validationRules: any = {};
+
+                if (isRequiredField) {
+                    validationRules.required = true;
+                }
+
+                // Apply other rules only if value is present OR if the field is required
+                if (value !== undefined && value !== null && value !== '' || isRequiredField) {
+                    rules.forEach(rule => {
+                        if (rule.pattern) validationRules.format = rule.pattern;
+                        if (rule.type === 'email') validationRules.email = true;
+                        if (rule.type === 'url') validationRules.url = true;
+                        if (rule.enum) validationRules.oneOf = rule.enum;
+
+                        if (rule.min !== undefined || rule.max !== undefined) {
+                            if (rule.type === 'number') {
+                                validationRules.range = { min: rule.min, max: rule.max };
+                            } else {
+                                if (rule.min !== undefined) validationRules.min = rule.min;
+                                if (rule.max !== undefined) validationRules.max = rule.max;
+                            }
+                        }
+                    });
+                }
+    
+                validator.validate(value, validationRules);
+
+                if (validator.errors.length > 0) {
+                    modelErrors[field] = validator.errors;
+                }
+            } catch (error) {
+                modelErrors[field] = error.toString();
+            }
+        });
+
+        return {
+            isValid: Object.keys(modelErrors).length === 0,
+            errors: modelErrors,
+        };
     }
 }
