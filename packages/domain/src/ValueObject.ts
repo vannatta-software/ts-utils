@@ -12,7 +12,7 @@ export abstract class ValueObject {
             return false;
 
         for (let i = 0; i < thisValues.length; i++) {
-            if (!thisValues[i] === otherValues[i])
+            if (thisValues[i] !== otherValues[i])
                 return false
         }
 

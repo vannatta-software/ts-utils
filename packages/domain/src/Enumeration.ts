@@ -21,6 +21,10 @@ export abstract class Enumeration {
         return this.name;
     }
 
+    getNames(): string[] {
+        return this.getAllInstances().map((instance) => instance.name);
+    }
+
     static getAllInstances<T>(enumClass: new (...args: any[]) => T): T[] {
         const instances: T[] = [];
         const keys = Object.getOwnPropertyNames(enumClass);
@@ -134,7 +138,7 @@ export abstract class Enumeration {
     }
 
     getAllInstances<T extends Enumeration>(): T[] {
-        return Enumeration.registry.filter(e => e instanceof this.constructor) as T[];
+        return Enumeration.registry.filter(e => e instanceof this.constructor && e.name != "") as T[];
     }
 
     compareTo(other: Enumeration): number {

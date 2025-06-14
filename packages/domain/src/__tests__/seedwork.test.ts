@@ -1,10 +1,39 @@
 // seedwork.spec.ts
 
+import { ValueObject } from "../ValueObject";
 import { AggregateRoot } from "../AggregateRoot";
 import { Entity } from "../Entity";
 import { Enumeration } from "../Enumeration";
 import { GlobalIdentifier } from "../GlobalIdentifier";
 import { UniqueIdentifier } from "../UniqueIdentifier";
+
+
+class S extends ValueObject {
+    constructor(public a: number, public b: string) {
+        super();
+    }
+
+    protected *getAtomicValues(): IterableIterator<any> {
+        yield this.a;
+        yield this.b;
+    }
+}
+
+describe('ValueObject', () => {
+    
+        it('should compare two ValueObjects for equality',  () => {
+            const obj1 = new S(1, 'test');
+            const obj2 = new S(1, 'test');
+            const obj3 = new S(2, 'test');
+
+            expect(obj1.equals(obj2)).toBe(true);
+            expect(obj1.equals(obj3)).toBe(false);
+            expect(obj1.equals(null)).toBe(false);
+            expect(obj1.equals(undefined)).toBe(false);
+        }
+        );
+})
+
 
 describe('GlobalIdentifier', () => {
     it('should create a new GlobalIdentifier with a UUID', () => {
@@ -103,6 +132,17 @@ describe('Enumeration', () => {
             super(en);
         }
     }
+
+    it('should return all names of the enumeration', () => {
+        const color = new Color();
+        const names = color.getNames();
+
+        expect(names).toContain('Red');
+        expect(names).toContain('Green');
+        expect(names).toContain('Blue');
+        expect(names.length).toEqual(3);
+    });
+
     it('should create an instance with the correct id and name', () => {
         const red = Color.Red;
         expect(red.id).toEqual(1);
@@ -156,3 +196,4 @@ describe('Enumeration', () => {
         expect(Color.Red.compareTo(Color.Red)).toBe(0);
     });
 });
+

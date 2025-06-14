@@ -1,14 +1,14 @@
 {
     "name": "@vannatta-software/ts-utils-domain",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc",
         "test": "jest"
-    },
+    },  
     "dependencies": {
-        "@vannatta-software/ts-utils-core": "^2.2.0",
+        "@vannatta-software/ts-utils-core": "^2.2.1",
         "uuid": "^11.1.0"
     },
     "devDependencies": {
