@@ -43,9 +43,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
-      - name: Wait for npm propagation
-        run: sleep 30
-
       - name: Lerna Publish
         run: npx lerna publish from-git --yes
         env:
