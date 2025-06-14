@@ -11,6 +11,7 @@ export class Pattern {
     public static URL: RegExp = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;  // URL format
     public static PhoneNumber: RegExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;  // Phone format: 123-456-7890
     public static CreditCard: RegExp = /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9]{2})[0-9]{12}|3[47][0-9]{13})$/;  // Simple credit card regex
+    public static UUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 }
 
 export class Validator {
@@ -149,6 +150,11 @@ export class Validator {
             this.errors.push('Enter a valid credit card number.');
     }
 
+    private uuid(value: any) {
+        if (!Pattern.UUID.test(value))
+            this.errors.push('Enter a valid UUID.');
+    }
+
     public validate(value: any, rules: any) {
         this.errors = [];
         for (const key in rules) {
@@ -177,6 +183,7 @@ export class Validator {
                     case 'url': this.url(value); break;
                     case 'phone': this.phone(value); break;
                     case 'creditCard': this.creditCard(value); break;
+                    case 'uuid': this.uuid(value); break;
                 }
             }
         }

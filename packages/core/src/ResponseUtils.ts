@@ -12,6 +12,30 @@ export interface IServerResponse<T = {}> {
 
 export type Response<T> = SuccessResponse<T> | ErrorResponse<T>;
 
+export class ApiResponse<T> {
+    [key: string]: any;
+    
+    constructor(entity: T, omit: string[] = []) {
+        if (!entity) return;
+    
+        if (Array.isArray(entity)) {
+            const result = entity.map(item => new ApiResponse(item, omit));
+            
+            Object.assign(this, result);
+            Object.setPrototypeOf(this, Array.prototype);
+            
+            return;
+        }
+        
+        // Handle single entity
+        Object.entries(entity).forEach(([key, value]) => {
+            if (omit.includes(key)) return;
+            
+            this[key] = value;
+        });
+    }
+}
+
 export interface IServerError<T = {}> extends IServerResponse<T> {
     response: {
         data: {

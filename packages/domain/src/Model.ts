@@ -1,7 +1,8 @@
-import { ModelErrors, Validator } from "@vannatta-software/ts-utils-core";
+import { ModelErrors, Validator } from "@vannatta-software/ts-utils-core"; 
 
 type StoreValue = any;
 type ValidateAction = (rule: RuleObject, value: StoreValue, callback: (error?: string) => void) => Promise<void | any> | void;
+type ValidationState = { isValid: boolean; errors: { [key: string]: string[] } }
 type RuleType = 'string' | 'number' | 'boolean' | 'method' | 'regexp' | 'integer' | 'float' | 'object' | 'enum' | 'date' | 'url' | 'hex' | 'email';
 interface Rule {
     warningOnly?: boolean;
@@ -121,8 +122,9 @@ export class Model {
         values?.[list]?.forEach(model => this[list]?.push(new type().copy(model)))
     }
 
-    public validateModel(model: Model): { isValid: boolean; errors: { [key: string]: string[] } } {
-                const validation = model.validation;
+    public validate(): ValidationState {
+        const validation = this.validation;
+
         if (!validation) return;
 
         const modelErrors: { [key: string]: string[] } = {};
@@ -130,9 +132,8 @@ export class Model {
 
         Object.entries(validation).forEach(([field, rules]) => {
             try {
-                const value = model[field];
+                const value = this[field];
                 const isRequiredField = rules.some(rule => rule.required);
-
                 const validationRules: any = {};
 
                 if (isRequiredField) {

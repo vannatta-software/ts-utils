@@ -102,4 +102,12 @@ describe('Validator Tests', () => {
         expect(validator.validate('123.45', { integer: true })).toBe(false);
         expect(validator.validate('Test123', { integer: true })).toBe(false);
     });
+
+    test('UUID validation', () => {
+        expect(validator.validate('123e4567-e89b-12d3-a456-426614174000', { uuid: true })).toBe(true);
+        expect(validator.validate('invalid-uuid', { uuid: true })).toBe(false);
+        expect(validator.validate('123e4567-e89b-12d3-a456-42661417400', { uuid: true })).toBe(false); // Too short
+        expect(validator.validate('123e4567-e89b-12d3-a456-4266141740000', { uuid: true })).toBe(false); // Too long
+        expect(validator.validate('g23e4567-e89b-12d3-a456-426614174000', { uuid: true })).toBe(false); // Invalid character
+    });
 });

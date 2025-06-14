@@ -18,16 +18,35 @@ export interface RequestOptions<P = any> {
     cancelToken?: CancelTokenSource;
 }
 
-export class HttpClient {
+
+export interface IHttpRequest<T = any> {
+    execute(options?: RequestOptions<any>): Promise<T>;
+}
+
+export interface IHttpClient {
+    get<T, Q = any>(path: string): { execute(options?: RequestOptions<Q>): Promise<T> };
+    post<T, C = any>(path: string): { execute(command: C, options?: RequestOptions): Promise<T> };
+    put<T, C = any>(path: string): { execute(command: C, options?: RequestOptions): Promise<T> };
+    patch<T, C = any>(path: string): { execute(command: C, options?: RequestOptions): Promise<T> };
+    delete<T, C = any>(path: string): { execute(command: C, options?: RequestOptions): Promise<T> };
+    addMiddleware(fn: (config: RequestConfig) => RequestConfig);
+    createCancelToken(): CancelTokenSource
+    
+}
+
+export class HttpClient implements IHttpClient {
+    public static readonly DefaultTimeout = 30000; // Default timeout in milliseconds
+    public static readonly DefaultHeaders: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    };
     private axiosInstance: AxiosInstance;
     private middleware: ((config: RequestConfig) => RequestConfig)[] = [];
 
     constructor(config: HttpClientConfig = {}) {
         const defaultConfig: HttpClientConfig = {
-            timeout: 30000,
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            timeout: HttpClient.DefaultTimeout,
+            headers: HttpClient.DefaultHeaders,
             ...config
         };
 
