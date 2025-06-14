@@ -1,0 +1,25 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [2.4.0](https://github.com/vannatta-software/ts-utils/compare/v1.6.0...v2.4.0) (2025-06-14)
+
+
+### Bug Fixes
+
+* added model validation ([c39e4be](https://github.com/vannatta-software/ts-utils/commit/c39e4bebaf43dfa3629196e4024629a0bd2452a9))
+* added model validation ([c8f7865](https://github.com/vannatta-software/ts-utils/commit/c8f78653410c8d99cb2c580c8299e00a7f8d5e74))
+* added model validation ([e78bd2a](https://github.com/vannatta-software/ts-utils/commit/e78bd2af4f3cea1686e2e141ee168a5d3fd1473e))
+* model validation ([bced9f7](https://github.com/vannatta-software/ts-utils/commit/bced9f77396ca80c512377a4f11d8d01e54a3d63))
+* updated to 2.2.1 ([22e09f4](https://github.com/vannatta-software/ts-utils/commit/22e09f44b437ca7aa08255eb42594fe164cb45bd))
+
+
+### Features
+
+* DomainService ([0e69fdf](https://github.com/vannatta-software/ts-utils/commit/0e69fdf30c1dcce4228dbfb3560d65f1abef380e))
+* UniqueIdentifier / UniqueProperty ([b23ab7c](https://github.com/vannatta-software/ts-utils/commit/b23ab7c471d04f346060ef9cbfe874783e66a78c))
+* updated publish ([d8c4814](https://github.com/vannatta-software/ts-utils/commit/d8c4814bb22e50a4976a513cba63eab25f3529b3))
+* updated publish ([1631969](https://github.com/vannatta-software/ts-utils/commit/1631969de67a2fadc39e61e238330b7ca67365a3))
+* updated publish ([0629877](https://github.com/vannatta-software/ts-utils/commit/0629877099a0784839debfb63bdc7867b24600da))
+* updated publish ([5aaaa88](https://github.com/vannatta-software/ts-utils/commit/5aaaa88799ddf27a241988c82ccc6399f2910952))
