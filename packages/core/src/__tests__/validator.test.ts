@@ -1,4 +1,4 @@
-import Validator from '../Validator'; // Assuming the Validator class is in this file
+import {Validator} from '../Validator'; // Assuming the Validator class is in this file
 
 describe('Validator Tests', () => {
     let validator: Validator;
