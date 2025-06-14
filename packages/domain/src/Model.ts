@@ -125,14 +125,19 @@ export class Model {
     public static validate(model: Model): ValidationState {
         const validation = model.validation;
 
-        if (!validation) return;
-
         const modelErrors: { [key: string]: string[] } = {};
         const validator = new Validator();
 
+        if (!validation) {
+            return {
+                isValid: true,
+                errors: {}
+            };
+        }
+
         Object.entries(validation).forEach(([field, rules]) => {
             try {
-                const value = this[field];
+                const value = model[field];
                 const isRequiredField = rules.some(rule => rule.required);
                 const validationRules: any = {};
 
@@ -148,10 +153,13 @@ export class Model {
                         if (rule.type === 'url') validationRules.url = true;
                         if (rule.enum) validationRules.oneOf = rule.enum;
 
+                        if (rule.type === 'integer') validationRules.integer = true;
+
                         if (rule.min !== undefined || rule.max !== undefined) {
                             if (rule.type === 'number') {
                                 validationRules.range = { min: rule.min, max: rule.max };
                             } else {
+                                // For string min/max
                                 if (rule.min !== undefined) validationRules.min = rule.min;
                                 if (rule.max !== undefined) validationRules.max = rule.max;
                             }

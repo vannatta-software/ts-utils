@@ -22,4 +22,8 @@ export abstract class ValueObject {
     getCopy(): ValueObject {
         return Object.assign(Object.create(Object.getPrototypeOf(this)), this);
     }
+
+    toString(): string {
+        return `${this.constructor.name}(${Array.from(this.getAtomicValues()).join(', ')})`;
+    }
 }

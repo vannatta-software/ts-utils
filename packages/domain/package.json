@@ -6,9 +6,11 @@
     "scripts": {
         "build": "tsc",
         "test": "jest"
-    },  
+    },
     "dependencies": {
         "@vannatta-software/ts-utils-core": "^2.3.0",
+        "axios": "^1.10.0",
+        "reflect-metadata": "^0.2.2",
         "uuid": "^11.1.0"
     },
     "devDependencies": {

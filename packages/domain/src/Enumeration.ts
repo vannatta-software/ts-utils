@@ -83,11 +83,11 @@ export abstract class Enumeration {
         return instance;
     }
     
-    static from<T extends { id: string }>(
+    static from<T extends { id: number }>( // Changed id type to number
         enumClass: new (...args: any[]) => T,
-        id: string
+        id: number // Changed id type to number
     ): T {
-        if (!id) {
+        if (id === null || id === undefined) {
             throw new Error("No value was provided for the enum")
         }
 
@@ -95,19 +95,24 @@ export abstract class Enumeration {
         const state = allInstances.find(s => s.id === id);
 
         if (!state) {
-            throw new Error(`Possible values for ${this.name}: ${allInstances.map(s => s.id).join(", ")}`);
+            throw new Error(`Possible values for ${enumClass.name}: ${allInstances.map(s => s.id).join(", ")}`); // Changed this.name to enumClass.name
         }
 
         return state as T;
     }
 
     fromName<T extends Enumeration>(name?: string): T {
+        if (name === undefined || name === null || name.trim() === "") {
+            throw new Error("No value was provided for the enum");
+        }
+
         const list = this.getAllInstances<T>();
         const formattedName = name ? name.toLowerCase() : "";
         const state = list.find(s => s.name.toLowerCase() === formattedName);
+        const type = this.constructor.name;
 
         if (!state) {
-            throw new Error(`Possible values for ${this.name}: ${list.map(s => s.name).join(", ")}`);
+            throw new Error(`Possible values for ${type}: ${list.map(s => s.name).join(", ")}`);
         }
 
         return state as T;
@@ -127,7 +132,7 @@ export abstract class Enumeration {
         const state = list.find(s => s.id === id);
 
         if (!state) {
-            throw new Error(`Possible values for ${this.name}: ${list.map(s => s.name).join(", ")}`);
+            throw new Error(`Possible values for ${this.constructor.name}: ${list.map(s => s.id).join(", ")}`);
         }
 
         return state as T;

@@ -87,7 +87,7 @@ export abstract class ServiceClient<T> extends DomainService implements IService
     public disconnect(): void {
         if (this.eventBus?.unsubscribe) {
             for (const notification of this.notifications) {
-                this.eventBus.unsubscribe(notification[0]);
+                this.eventBus.unsubscribe(notification[1]); // Use the ClassType, not the string name
             }
         }
         

@@ -1,49 +1,59 @@
+ import { v4 as uuid } from "uuid";
 import { Schema } from "@vannatta-software/ts-utils-core";
-import { ValueObject } from "./ValueObject";
 
-export class UniqueIdentifier extends ValueObject  {
-    @Schema({ type: String  })
+export class UniqueIdentifier {
+    @Schema({ type: String, default: function genUUID() {
+        return uuid()
+    }})
     public value: string;
-    
-    @Schema({ type: String  })
-    public context: string;
 
-    constructor(id?: Partial<UniqueIdentifier>) {
-        super();
-        this.value = id?.value ?? "";
-        this.context = id?.context ?? "";
+    constructor(value: string) {
+        this.value = value
     }
 
-    rename(name: string): void {
-        this.value = name;
+    static generate(): UniqueIdentifier {
+        return new UniqueIdentifier(uuid());
     }
 
-    get scriptFormat(): string {
-        return this.value.replace(/ /g, '_').replace(/-/g, '_');
+    static parse(value: string): UniqueIdentifier {
+        if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(value)) {
+            return new UniqueIdentifier(value);
+        }
+        throw new Error("Invalid UniqueIdentifier format.");
     }
 
-    get fileFormat(): string {
-        return this.value.toLowerCase().replace(/ /g, '-').replace(/_/g, '-');
+    static get Empty(): UniqueIdentifier {
+        return new UniqueIdentifier('00000000-0000-0000-0000-000000000000');
     }
 
-    setContext(identifier: UniqueIdentifier | string): void {
-        this.context = typeof identifier === 'string' ? identifier : identifier.nameInContext;
+    /**
+     * Defines how UniqueIdentifier instances are converted to primitive values.
+     * This is crucial for implicit string conversions (e.g., console.log, string concatenation).
+     */
+    [Symbol.toPrimitive](hint: 'string' | 'number' | 'default'): string {
+        if (hint === 'string' || hint === 'default') {
+            return this.value;
+        }
+        return this.value;
     }
 
-    hasContext(identifier: UniqueIdentifier | string): boolean {
-        const scope = typeof identifier === 'string' ? identifier : identifier.nameInContext;
-        return this.context.includes(scope);
-    }
-
-    get nameInContext(): string {
-        return this.context && this.context !== "" ? `${this.context}-${this.value}` : this.value;
-    }
-
+    /**
+     * Overrides the default toString method to return the underlying UUID string.
+     * Useful for explicit string conversions.
+     */
     toString(): string {
         return this.value;
     }
 
-    protected *getAtomicValues(): IterableIterator<any> {
-        yield this.value;
+    /**
+     * Overrides the default valueOf method to return the underlying UUID string.
+     * Important for some implicit conversions and comparisons.
+     */
+    valueOf(): string {
+        return this.value;
+    }
+
+    equals(other: UniqueIdentifier): boolean {
+        return this.value === other.value;
     }
 }

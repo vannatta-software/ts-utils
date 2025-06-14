@@ -93,8 +93,9 @@ export class Validator {
     }
 
     private max(value: any, length: any) {
-        if (value.length > length) 
-            this.errors.push('Must be at least ' + length + ' characters long.');
+        const valueStr = value + ""; // Ensure it's treated as a string
+        if (valueStr.length > length) 
+            this.errors.push(`Must be at most ${length} characters long.`);
     }
 
     private integer(value: any) {

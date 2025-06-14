@@ -5,5 +5,5 @@ module.exports = {
     testMatch: ['**/__tests__/**/*.(test|spec).ts'],
     collectCoverage: true,
     coverageDirectory: '../coverage',
+    setupFilesAfterEnv: ['<rootDir>/setupTests.ts']
 };
-  

@@ -1,7 +1,7 @@
 import { ClassType } from "@vannatta-software/ts-utils-core";
-import { GlobalIdentifier } from "./GlobalIdentifier";
 import { Model } from "./Model";
 import { IDomainEvent } from "./Events";
+import { UniqueIdentifier } from "./UniqueIdentifier";
 
 export type DTO<T> = Omit<T, "validation" | "copy" | "copyArray" | "_domainEvents" | "validate">;
 
@@ -21,7 +21,7 @@ export class Integration<TData = any> {
     constructor(data: TData, type: ClassType<TData>) {
         this.name = typeof type == "string" ? type : new type().constructor.name;
         this.data = data;
-        this.eventId = GlobalIdentifier.newGlobalIdentifier().value;
+        this.eventId = UniqueIdentifier.generate().value;
     }
 }
 
