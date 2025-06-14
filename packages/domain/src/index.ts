@@ -8,3 +8,4 @@ export * from './Repository';
 export * from './UniqueIdentifier';
 export * from './ValueObject';
 export * from './Model';
+export * from './Service'

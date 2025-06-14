@@ -12,5 +12,6 @@ export interface IDomainEventPublisher {
 
 export interface IEventBus {
     publish(event: Integration, topic?: string): Promise<void>;
-    subscribe<TData>(topic: string, handler: (data: TData) => Promise<void>, eventType?: ClassType<TData>): void;
+    subscribe<TData = any>(topic: ClassType<TData>, handler: (data: TData) => Promise<void>): void;
+    unsubscribe<TData = any>(topic: ClassType<TData>): void;
 }
