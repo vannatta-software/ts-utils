@@ -2,6 +2,7 @@ export * from './AggregateRoot';
 export * from './Entity';
 export * from './Enumeration';
 export * from './Events';
+export * from './CqrsTypes';
 export * from './GlobalIdentifier';
 export * from './Repository';
 export * from './UniqueIdentifier';
