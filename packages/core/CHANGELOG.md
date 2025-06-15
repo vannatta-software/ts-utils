@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.4](https://github.com/vannatta-software/ts-utils/compare/v2.5.3...v2.5.4) (2025-06-15)
+
+
+### Bug Fixes
+
+* reflect-metadata exported ([5da9d40](https://github.com/vannatta-software/ts-utils/commit/5da9d400be0a2e5dcd088edd06db12a872ada8bc))
+
+
+
+
+
 ## [2.5.2](https://github.com/vannatta-software/ts-utils/compare/v2.5.1...v2.5.2) (2025-06-15)
 
 
