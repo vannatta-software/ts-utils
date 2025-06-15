@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/vannatta-software/ts-utils/compare/v2.5.1...v2.5.2) (2025-06-15)
+
+
+### Bug Fixes
+
+* updated the property decorator (Schema) ([c1f3efd](https://github.com/vannatta-software/ts-utils/commit/c1f3efd19f78d02eaee7baf10b57c421a79282e6))
+
+
+
+
+
 ## [2.5.1](https://github.com/vannatta-software/ts-utils/compare/v2.5.0...v2.5.1) (2025-06-15)
 
 **Note:** Version bump only for package ts-utils-monorepo
