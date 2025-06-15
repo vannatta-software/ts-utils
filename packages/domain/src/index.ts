@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 export * from './AggregateRoot';
 export * from './Entity';
 export * from './Enumeration';

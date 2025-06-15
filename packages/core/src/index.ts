@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 export * from "./ApiClient"
 export * from "./ArrayUtils"
 export * from "./EventSource"

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 export * from './BaseStore';
 export * from './ClientConnection';
 export * from './CookieUtils';

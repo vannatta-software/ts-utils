@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 export * from './common/event-emitter.class';
 export * from './common/event-emitter';
 export * from './common/exceptions/api.exception';
