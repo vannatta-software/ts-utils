@@ -12,6 +12,7 @@
         "strictPropertyInitialization": false, 
         "noFallthroughCasesInSwitch": true,
         "baseUrl": ".",
+        "skipLibCheck": true
     },
     "include": ["src"],
     "exclude": [
