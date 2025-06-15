@@ -1,6 +1,6 @@
 {
     "name": "@vannatta-software/ts-utils-frontend",
-    "version": "2.5.2",
+    "version": "2.5.3",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
@@ -10,7 +10,7 @@
     "dependencies": {
         "@microsoft/signalr": "^8.0.0",
         "@vannatta-software/ts-utils-core": "^2.5.2",
-        "@vannatta-software/ts-utils-domain": "^2.5.2",
+        "@vannatta-software/ts-utils-domain": "^2.5.3",
         "antd": "^5.13.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

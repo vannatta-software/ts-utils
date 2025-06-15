@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.3](https://github.com/vannatta-software/ts-utils/compare/v2.5.2...v2.5.3) (2025-06-15)
+
+
+### Bug Fixes
+
+* updated domain to utilize the PropertyDecorator ([7c3a2f3](https://github.com/vannatta-software/ts-utils/commit/7c3a2f38adf324b0ccffc26159aece5a8c3a0b4e))
+
+
+
+
+
 ## [2.5.2](https://github.com/vannatta-software/ts-utils/compare/v2.5.1...v2.5.2) (2025-06-15)
 
 **Note:** Version bump only for package @vannatta-software/ts-utils-domain
