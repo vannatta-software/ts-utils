@@ -43,7 +43,7 @@ export interface ViewMetadata extends Prop {
   type: ViewType;
 }
 
-export interface SchemaMetadata {
+export interface SchemaMetadata extends Prop {
   [key: string]: any;
 }
 
@@ -54,7 +54,7 @@ export function Field(
   label: string,
   type: FieldType = FieldType.Text,
   options?: object
-) {
+): PropertyDecorator {
   return function (target: any, propertyKey: string) {
     const fields: FieldMetadata[] =
       ReflectionUtils.getOwnMetadata<FieldMetadata>(FormFieldMetadataKey, target.constructor) || [];
@@ -66,7 +66,7 @@ export function Field(
 /**
  * View decorator.
  */
-export function View(label: string, type: ViewType = ViewType.Text) {
+export function View(label: string, type: ViewType = ViewType.Text): PropertyDecorator {
   return function (target: any, propertyKey: string) {
     const fields =
       ReflectionUtils.getOwnMetadata<ViewMetadata>(ViewFieldMetadataKey, target.constructor) || [];
@@ -76,21 +76,21 @@ export function View(label: string, type: ViewType = ViewType.Text) {
   };
 }
 
-export function Schema(options: any) {
+export function Schema(options: any): PropertyDecorator {
   return function (target: any, propertyKey: string) {
-    const fields: SchemaMetadata[] =
-      ReflectionUtils.getMetadata(SchemaMetadataKey, target.constructor) || [];
-    const existingFieldIndex = fields.findIndex((field) => field.propertyKey === propertyKey);
+    const schemas: SchemaMetadata[] =
+      ReflectionUtils.getOwnMetadata<SchemaMetadata>(SchemaMetadataKey, target.constructor) || [];
+    const existingSchemaIndex = schemas.findIndex((schema) => schema.propertyKey === propertyKey);
 
-    if (existingFieldIndex !== -1) {
-      // Update existing field
-      fields[existingFieldIndex] = { ...fields[existingFieldIndex], ...options };
+    if (existingSchemaIndex !== -1) {
+      // Update existing schema
+      schemas[existingSchemaIndex] = { ...schemas[existingSchemaIndex], ...options };
     } else {
-      // Add new field
-      fields.push({ propertyKey, ...options });
+      // Add new schema
+      schemas.push({ propertyKey, ...options });
     }
 
-    ReflectionUtils.setMetadata(SchemaMetadataKey, target.constructor, fields);
+    ReflectionUtils.setMetadata(SchemaMetadataKey, target.constructor, schemas);
   };
 }
 
