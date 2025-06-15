@@ -1,0 +1,14 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [2.5.0](https://github.com/vannatta-software/ts-utils/compare/v2.4.0...v2.5.0) (2025-06-15)
+
+
+### Features
+
+* server package ([610eabe](https://github.com/vannatta-software/ts-utils/commit/610eabe4bd68ba60ec4bb81d95f72f2df1e484ac))
+* Server Package ([f67cf06](https://github.com/vannatta-software/ts-utils/commit/f67cf06c50b72d3efe061faab2f9912587ce5280))
+* Server Package ([a377aab](https://github.com/vannatta-software/ts-utils/commit/a377aabd39f8dc0e305121961d11222652b52fe3))
+* solidified Server Package ([25388cc](https://github.com/vannatta-software/ts-utils/commit/25388ccc86ea1038f9a0d41f07f52a73b9034076))
