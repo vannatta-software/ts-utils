@@ -1,5 +1,99 @@
 import 'reflect-metadata';
 
+export enum FieldType {
+  Text = "Text",
+  Date = "Date",
+  DateRange = "DateRange",
+  Blob = "Blob",
+  Boolean = "Boolean",
+  List = "List",
+  Object = "Object",
+  ObjectList = "ObjectList",
+  TextArea = "TextArea",
+  Number = "Number",
+  Select = "Select",
+}
+
+export enum ViewType {
+  Text = "Text",
+  Paragraph = "Paragraph",
+  Number = "Number",
+  Embedded = "Embedded",
+  Date = "Date",
+  DateRange = "DateRange",
+  Tag = "Tag",
+  Enumeration = "Enumeration",
+  List = "List",
+}
+
+type Prop = { propertyKey: string };
+
+export const FormFieldMetadataKey = Symbol("FormField");
+export const ViewFieldMetadataKey = Symbol("ViewField");
+export const SchemaMetadataKey = Symbol("Schema");
+
+export interface FieldMetadata extends Prop {
+  label: string;
+  type: FieldType;
+  options?: object;
+}
+
+export interface ViewMetadata extends Prop {
+  label: string;
+  type: ViewType;
+}
+
+export interface SchemaMetadata {
+  [key: string]: any;
+}
+
+/**
+ * Field decorator.
+ */
+export function Field(
+  label: string,
+  type: FieldType = FieldType.Text,
+  options?: object
+): PropertyDecorator {
+  return function (target: any, propertyKey: string) {
+    const fields: FieldMetadata[] =
+      ReflectionUtils.getOwnMetadata<FieldMetadata>(FormFieldMetadataKey, target.constructor) || [];
+    fields.push({ label, type, propertyKey, options });
+    ReflectionUtils.setMetadata(FormFieldMetadataKey, target.constructor, fields);
+  };
+}
+
+/**
+ * View decorator.
+ */
+export function View(label: string, type: ViewType = ViewType.Text): PropertyDecorator {
+  return function (target: any, propertyKey: string) {
+    const fields =
+      ReflectionUtils.getOwnMetadata<ViewMetadata>(ViewFieldMetadataKey, target.constructor) || [];
+      
+    fields.push({ label, type, propertyKey });
+    ReflectionUtils.setMetadata(ViewFieldMetadataKey, target.constructor, fields);
+  };
+}
+
+export function Schema(options: any): PropertyDecorator {
+  return function (target: any, propertyKey: string) {
+    const fields: SchemaMetadata[] =
+      ReflectionUtils.getMetadata(SchemaMetadataKey, target.constructor) || [];
+    const existingFieldIndex = fields.findIndex((field) => field.propertyKey === propertyKey);
+
+    if (existingFieldIndex !== -1) {
+      // Update existing field
+      fields[existingFieldIndex] = { ...fields[existingFieldIndex], ...options };
+    } else {
+      // Add new field
+      fields.push({ propertyKey, ...options });
+    }
+
+    ReflectionUtils.setMetadata(SchemaMetadataKey, target.constructor, fields);
+  };
+}
+
 export class ReflectionUtils {
   /**
    * Retrieves all metadata for a given key on a class.

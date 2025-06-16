@@ -5,7 +5,7 @@ import { UniqueProperty, getUniqueProperties } from './decorators/unique-propert
 import { ValueObject } from "./ValueObject"; // Import ValueObject for type checking
 import { Enumeration } from "./Enumeration"; // Import Enumeration for type checking
 
-export interface IEntity {
+export interface IEntity { 
     id: UniqueIdentifier;
     createdAt: Date;
     updatedAt: Date;
