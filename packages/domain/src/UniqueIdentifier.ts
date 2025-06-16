@@ -1,10 +1,6 @@
 import { v4 as uuid } from "uuid";
-import { Schema } from "@vannatta-software/ts-utils-core";
 
 export class UniqueIdentifier {
-    @Schema({ type: String, default: function genUUID() {
-        return uuid()
-    }})
     public value: string;
 
     constructor(value: string) {
@@ -15,7 +11,18 @@ export class UniqueIdentifier {
         return new UniqueIdentifier(uuid());
     }
 
-    static parse(value: string): UniqueIdentifier {
+    static parse(value: string | UniqueIdentifier): UniqueIdentifier {
+        if (value instanceof UniqueIdentifier) {
+            return value;
+        }
+        if (typeof value !== 'string') {
+            throw new Error("Value must be a string or UniqueIdentifier instance.");
+        }
+        value = value.trim();
+        if (value === '') {
+            throw new Error("Value cannot be an empty string.");
+        }
+        // Validate UUID format (version 4)
         if (/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(value)) {
             return new UniqueIdentifier(value);
         }

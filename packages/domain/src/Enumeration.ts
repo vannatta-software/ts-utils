@@ -1,9 +1,7 @@
 import { Schema } from "@vannatta-software/ts-utils-core";
 
 export abstract class Enumeration {
-    @Schema({ type: Number })
     public id: number
-    @Schema({ type: String })
     public name: string
     private static registry: Enumeration[] = [];
 

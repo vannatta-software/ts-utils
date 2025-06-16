@@ -12,11 +12,8 @@ export interface IEntity {
 }
 
 export abstract class Entity implements IEntity {
-    @Schema({ type: UniqueIdentifier, embedded: true })
     public id: UniqueIdentifier;
-    @Schema({ type: Date })
     public createdAt: Date;
-    @Schema({ type: Date })
     public updatedAt: Date;
     private _domainEvents: IDomainEvent[];
 
