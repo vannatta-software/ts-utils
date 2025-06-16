@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.5](https://github.com/vannatta-software/ts-utils/compare/v2.5.4...v2.5.5) (2025-06-16)
+
+
+### Bug Fixes
+
+* corrected UniqueIdentifier.parse ([5bdaf66](https://github.com/vannatta-software/ts-utils/commit/5bdaf66b432bd4559ad04d9fe80c8d363413c13c))
+* corrected UniqueIdentifier.parse ([11cca73](https://github.com/vannatta-software/ts-utils/commit/11cca737665ee8b31b8a9ce216128369118d7c9d))
+
+
+
+
+
 ## [2.5.4](https://github.com/vannatta-software/ts-utils/compare/v2.5.3...v2.5.4) (2025-06-15)
 
 
